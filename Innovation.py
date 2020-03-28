@@ -4,17 +4,23 @@ import random
 
 ## PRINT OPENING TEXT
 
-print ""
-print "    ****************"
-print "    ** Innovation **"
-print "    ****************"
-print ""
-print "Developed by Alex Spacek"
-print "     5/8/19-3/27/20"
-print ""
+print("\n    ****************")
+print(  "    ** Innovation **")
+print(  "    ****************\n")
+print(  "Developed by Alex Spacek")
+print(  "     5/8/19-3/28/20\n")
 
 ## DEFINE CLASSES
 
+# Symbols:
+# Initiate by:
+#   test = Symbols("crown","castle","none","bulb")
+# Then you have:
+#   test.ul = "crown"
+#   test.dl = "castle"
+#   test.dm = "none"
+#   test.dr = "bulb"
+# This is itself used in the class "Card" below.
 class Symbols:
 	def __init__(self,ul,dl,dm,dr):
 		self.ul = ul	# up left
@@ -22,12 +28,42 @@ class Symbols:
 		self.dm = dm	# down middle
 		self.dr = dr	# down right
 
+# Effects:
+# Initiate by:
+#   test = Effects("demand","castle","I demand you take my castle!")
+# Then you have:
+#   test.type = "demand"
+#   test.cost = "castle"
+#   test.text = "I demand you take my castle!"
+# This is itself used in the class "Card" below.
 class Effects:
 	def __init__(self,type,cost,text):
 		self.type = type
 		self.cost = cost
 		self.text = text
 
+# Card:
+# Initiate by:
+#   test = Card("Archery",1,"red","deck",
+#               "castle","bulb","none","castle",
+#               "demand","castle","I demand you draw a [1], then transfer the highest card in your hand to my hand!",
+#               "","","")
+# Then you have:
+#   test.name = "Archery"
+#   test.age = 1
+#   test.color = "red"
+#   test.location = "deck"
+#   test.syms.ul = "castle"
+#   test.syms.dl = "bulb"
+#   test.syms.dm = "none"
+#   test.syms.dr = "castle"
+#   test.effect1.type = "demand"
+#   test.effect1.cost = "castle"
+#   test.effect1.text = "I demand you draw a [1], then transfer the highest card in your hand to my hand!"
+#   test.effect2.type = ""
+#   test.effect2.cost = ""
+#   test.effect2.text = ""
+# These Cards will be defined, placed in the "Ages" class, and assembled into the "Deck" later.
 class Card:
 	def __init__(self,name,age,color,location,ul,dl,dm,dr,type1,cost1,text1,type2,cost2,text2):
 		self.name = name
@@ -38,6 +74,14 @@ class Card:
 		self.effect1 = Effects(type1,cost1,text1)
 		self.effect2 = Effects(type2,cost2,text2)
 
+# Domain:
+# Initiate by:
+#   test = Domain("World",
+#	              "Claim this special achievement immediately if you have twelve or more [clocks] on your board.")
+# Then you have:
+#   test.name = "World"
+#   test.text = "Claim this special achievement immediately if you have twelve or more [clocks] on your board."
+# These will make up the special Domains to be dominated.
 class Domain:
 	def __init__(self,name,text):
 		self.name = name
@@ -213,28 +257,28 @@ Universe = Domain("Universe",
 
 ## BUILD THE DOMINATIONS
 
-arr = range(len(Deck.a1))
+arr = [i for i in range(len(Deck.a1))]
 random.shuffle(arr)
 for i in arr:
 	if Deck.a1[i].location == "deck":
 		Deck.a1[i].location = "domination"
 		break
 
-arr = range(len(Deck.a2))
+arr = [i for i in range(len(Deck.a2))]
 random.shuffle(arr)
 for i in arr:
 	if Deck.a2[i].location == "deck":
 		Deck.a2[i].location = "domination"
 		break
 
-arr = range(len(Deck.a3))
+arr = [i for i in range(len(Deck.a3))]
 random.shuffle(arr)
 for i in arr:
 	if Deck.a3[i].location == "deck":
 		Deck.a3[i].location = "domination"
 		break
 
-arr = range(len(Deck.a4))
+arr = [i for i in range(len(Deck.a4))]
 random.shuffle(arr)
 for i in arr:
 	if Deck.a4[i].location == "deck":
@@ -243,7 +287,7 @@ for i in arr:
 
 ## DEAL CARDS
 
-arr = range(len(Deck.a1))
+arr = [i for i in range(len(Deck.a1))]
 random.shuffle(arr)
 p1count = 0
 p2count = 0
@@ -254,4 +298,3 @@ for i in arr:
 	if Deck.a1[i].location == "deck" and p2count < 2:
 		Deck.a1[i].location = "p2hand"
 		p2count = p2count + 1
-
