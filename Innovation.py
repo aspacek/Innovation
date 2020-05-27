@@ -2,13 +2,52 @@
 
 import random
 
+## FUNCTIONS
+
+# Function to quickly grab specific cards (a player's hand, the deck, the dominations, etc.):
+def getcards(what,thedeck):
+	# Get then length of each Age array:
+	a1len = len(thedeck.a1)
+	a2len = len(thedeck.a2)
+	a3len = len(thedeck.a3)
+	a4len = len(thedeck.a4)
+	# Initialize the player hands:
+	p1hand = []
+	p2hand = []
+	# Loop through the whole deck:
+	for i in range(a1len):
+		if thedeck.a1[i].location == "p1hand":
+			p1hand = p1hand+[thedeck.a1[i].name]
+		elif thedeck.a1[i].location == "p2hand":
+			p2hand = p2hand+[thedeck.a1[i].name]
+	for i in range(a2len):
+		if thedeck.a2[i].location == "p1hand":
+			p1hand = p1hand+[thedeck.a2[i].name]
+		elif thedeck.a2[i].location == "p2hand":
+			p2hand = p2hand+[thedeck.a2[i].name]
+	for i in range(a3len):
+		if thedeck.a3[i].location == "p1hand":
+			p1hand = p1hand+[thedeck.a3[i].name]
+		elif thedeck.a3[i].location == "p2hand":
+			p2hand = p2hand+[thedeck.a3[i].name]
+	for i in range(a4len):
+		if thedeck.a4[i].location == "p1hand":
+			p1hand = p1hand+[thedeck.a4[i].name]
+		elif thedeck.a4[i].location == "p2hand":
+			p2hand = p2hand+[thedeck.a4[i].name]
+	# Return desired info:
+	if what == "p1hand":
+		return p1hand
+	elif what == "p2hand":
+		return p2hand
+
 ## PRINT OPENING TEXT
 
 print("\n    ****************")
 print(  "    ** Innovation **")
 print(  "    ****************\n")
 print(  "Developed by Alex Spacek")
-print(  "     5/8/19-3/28/20\n")
+print(  "     5/8/19-5/27/20\n")
 
 ## DEFINE CLASSES
 
@@ -87,6 +126,17 @@ class Domain:
 		self.name = name
 		self.text = text
 
+# Ages:
+# Initiate by:
+#   test = Ages((card1,card2,card3),
+#               (card4,card5,card6),
+#               (card7,card8,card9),
+#               (card10,card11,card12))
+# Then you have:
+#   test.a1[2].name = card3.name
+#   test.a4[0].location = card10.location
+#   etc.
+# The "Deck" will be set up using the "Ages" class.
 class Ages:
 	def __init__(self,a1,a2,a3,a4):
 		self.a1 = a1
@@ -96,143 +146,178 @@ class Ages:
 
 ## DEFINE CARDS
 
+# NOTE - While writing the code, I'm just using 3 cards (Archery, Metalworking, Oars) and duplicating them.
+#        Age 1 - 3x each = 9 total
+#        Age 2 - 2x each = 6 total
+#        Age 3 - 2x each = 6 total
+#        Age 4 - 2x each = 6 total
+
+# Age 1 - 1/9 - Archery
 Archery = Card("Archery",1,"red","deck",
 	"castle","bulb","none","castle",
 	"demand","castle","I demand you draw a [1], then transfer the highest card in your hand to my hand!",
 	"","","")
 
-ArcheryX = Card("Archery",1,"red","deck",
+# Age 1 - 2/9 - Archery (duplicate)
+ArcheryX = Card("ArcheryX",1,"red","deck",
 	"castle","bulb","none","castle",
 	"demand","castle","I demand you draw a [1], then transfer the highest card in your hand to my hand!",
 	"","","")
 
-ArcheryXX = Card("ArcheryX",1,"red","deck",
+# Age 1 - 3/9 - Archery (duplicate)
+ArcheryXX = Card("ArcheryXX",1,"red","deck",
 	"leaf","bulb","none","leaf",
 	"demand","leaf","I demand you draw a [1], then transfer the highest card in your hand to my hand!",
 	"","","")
 
-Archery2 = Card("Archery",2,"red","deck",
+# Age 2 - 1/6 - Archery (duplicate)
+Archery2 = Card("Archery2",2,"red","deck",
 	"castle","bulb","none","castle",
 	"demand","castle","I demand you draw a [1], then transfer the highest card in your hand to my hand!",
 	"","","")
 
-Archery2X = Card("Archery",2,"red","deck",
+# Age 2 - 2/6 - Archery (duplicate)
+Archery2X = Card("Archery2X",2,"red","deck",
 	"castle","bulb","none","castle",
 	"demand","castle","I demand you draw a [1], then transfer the highest card in your hand to my hand!",
 	"","","")
 
-Archery3 = Card("Archery",3,"red","deck",
+# Age 3 - 1/6 - Archery (duplicate)
+Archery3 = Card("Archery3",3,"red","deck",
 	"castle","bulb","none","castle",
 	"demand","castle","I demand you draw a [1], then transfer the highest card in your hand to my hand!",
 	"","","")
 
-Archery3X = Card("Archery",3,"red","deck",
+# Age 3 - 2/6 - Archery (duplicate)
+Archery3X = Card("Archery3X",3,"red","deck",
 	"castle","bulb","none","castle",
 	"demand","castle","I demand you draw a [1], then transfer the highest card in your hand to my hand!",
 	"","","")
 
-Archery4 = Card("Archery",4,"red","deck",
+# Age 4 - 1/6 - Archery (duplicate)
+Archery4 = Card("Archery4",4,"red","deck",
 	"castle","bulb","none","castle",
 	"demand","castle","I demand you draw a [1], then transfer the highest card in your hand to my hand!",
 	"","","")
 
-Archery4X = Card("Archery",4,"red","deck",
+# Age 4 - 2/6 - Archery (duplicate)
+Archery4X = Card("Archery4X",4,"red","deck",
 	"castle","bulb","none","castle",
 	"demand","castle","I demand you draw a [1], then transfer the highest card in your hand to my hand!",
 	"","","")
 
+# Age 1 - 4/9 - Metalworking
 Metalworking = Card("Metalworking",1,"red","deck",
 	"castle","castle","none","castle",
 	"coop","castle","Draw and reveal a [1]. If it has a [castle], score it and repeat this dogma effect. Otherwise, keep it.",
 	"","","")
 
-MetalworkingX = Card("Metalworking",1,"red","deck",
+# Age 1 - 5/9 - Metalworking (duplicate)
+MetalworkingX = Card("MetalworkingX",1,"red","deck",
 	"castle","castle","none","castle",
 	"coop","castle","Draw and reveal a [1]. If it has a [castle], score it and repeat this dogma effect. Otherwise, keep it.",
 	"","","")
 
-MetalworkingXX = Card("MetalworkingX",1,"red","deck",
+# Age 1 - 6/9 - Metalworking (duplicate)
+MetalworkingXX = Card("MetalworkingXX",1,"red","deck",
 	"crown","crown","none","crown",
 	"coop","crown","Draw and reveal a [1]. If it has a [crown], score it and repeat this dogma effect. Otherwise, keep it.",
 	"","","")
 
-Metalworking2 = Card("Metalworking",2,"red","deck",
+# Age 2 - 3/6 - Metalworking (duplicate)
+Metalworking2 = Card("Metalworking2",2,"red","deck",
 	"castle","castle","none","castle",
 	"coop","castle","Draw and reveal a [1]. If it has a [castle], score it and repeat this dogma effect. Otherwise, keep it.",
 	"","","")
 
-Metalworking2X = Card("Metalworking",2,"red","deck",
+# Age 2 - 4/6 - Metalworking (duplicate)
+Metalworking2X = Card("Metalworking2X",2,"red","deck",
 	"castle","castle","none","castle",
 	"coop","castle","Draw and reveal a [1]. If it has a [castle], score it and repeat this dogma effect. Otherwise, keep it.",
 	"","","")
 
-Metalworking3 = Card("Metalworking",3,"red","deck",
+# Age 3 - 3/6 - Metalworking (duplicate)
+Metalworking3 = Card("Metalworking3",3,"red","deck",
 	"castle","castle","none","castle",
 	"coop","castle","Draw and reveal a [1]. If it has a [castle], score it and repeat this dogma effect. Otherwise, keep it.",
 	"","","")
 
-Metalworking3X = Card("Metalworking",3,"red","deck",
+# Age 3 - 4/6 - Metalworking (duplicate)
+Metalworking3X = Card("Metalworking3X",3,"red","deck",
 	"castle","castle","none","castle",
 	"coop","castle","Draw and reveal a [1]. If it has a [castle], score it and repeat this dogma effect. Otherwise, keep it.",
 	"","","")
 
-Metalworking4 = Card("Metalworking",4,"red","deck",
+# Age 4 - 3/6 - Metalworking (duplicate)
+Metalworking4 = Card("Metalworking4",4,"red","deck",
 	"castle","castle","none","castle",
 	"coop","castle","Draw and reveal a [1]. If it has a [castle], score it and repeat this dogma effect. Otherwise, keep it.",
 	"","","")
 
-Metalworking4X = Card("Metalworking",4,"red","deck",
+# Age 4 - 4/6 - Metalworking (duplicate)
+Metalworking4X = Card("Metalworking4X",4,"red","deck",
 	"castle","castle","none","castle",
 	"coop","castle","Draw and reveal a [1]. If it has a [castle], score it and repeat this dogma effect. Otherwise, keep it.",
 	"","","")
 
+# Age 1 - 7/9 - Oars
 Oars = Card("Oars",1,"red","deck",
 	"castle","crown","none","castle",
 	"demand","castle","I demand you transfer a card with a [crown] from your hand to my score pile! If you do, draw a [1].",
 	"coop","castle","If no cards were transferred due to this demand, draw a [1].")
 
-OarsX = Card("Oars",1,"red","deck",
+# Age 1 - 8/9 - Oars (duplicate)
+OarsX = Card("OarsX",1,"red","deck",
 	"castle","crown","none","castle",
 	"demand","castle","I demand you transfer a card with a [crown] from your hand to my score pile! If you do, draw a [1].",
 	"coop","castle","If no cards were transferred due to this demand, draw a [1].")
 
-OarsXX = Card("OarsX",1,"red","deck",
+# Age 1 - 9/9 - Oars (duplicate)
+OarsXX = Card("OarsXX",1,"red","deck",
 	"bulb","crown","none","bulb",
 	"demand","bulb","I demand you transfer a card with a [crown] from your hand to my score pile! If you do, draw a [1].",
 	"coop","castle","If no cards were transferred due to this demand, draw a [1].")
 
-Oars2 = Card("Oars",2,"red","deck",
+# Age 2 - 5/6 - Oars (duplicate)
+Oars2 = Card("Oars2",2,"red","deck",
 	"castle","crown","none","castle",
 	"demand","castle","I demand you transfer a card with a [crown] from your hand to my score pile! If you do, draw a [1].",
 	"coop","castle","If no cards were transferred due to this demand, draw a [1].")
 
-Oars2X = Card("Oars",2,"red","deck",
+# Age 2 - 6/6 - Oars (duplicate)
+Oars2X = Card("Oars2X",2,"red","deck",
 	"castle","crown","none","castle",
 	"demand","castle","I demand you transfer a card with a [crown] from your hand to my score pile! If you do, draw a [1].",
 	"coop","castle","If no cards were transferred due to this demand, draw a [1].")
 
-Oars3 = Card("Oars",3,"red","deck",
+# Age 3 - 5/6 - Oars (duplicate)
+Oars3 = Card("Oars3",3,"red","deck",
 	"castle","crown","none","castle",
 	"demand","castle","I demand you transfer a card with a [crown] from your hand to my score pile! If you do, draw a [1].",
 	"coop","castle","If no cards were transferred due to this demand, draw a [1].")
 
-Oars3X = Card("Oars",3,"red","deck",
+# Age 3 - 6/6 - Oars (duplicate)
+Oars3X = Card("Oars3X",3,"red","deck",
 	"castle","crown","none","castle",
 	"demand","castle","I demand you transfer a card with a [crown] from your hand to my score pile! If you do, draw a [1].",
 	"coop","castle","If no cards were transferred due to this demand, draw a [1].")
 
-Oars4 = Card("Oars",4,"red","deck",
+# Age 4 - 5/6 - Oars (duplicate)
+Oars4 = Card("Oars4",4,"red","deck",
 	"castle","crown","none","castle",
 	"demand","castle","I demand you transfer a card with a [crown] from your hand to my score pile! If you do, draw a [1].",
 	"coop","castle","If no cards were transferred due to this demand, draw a [1].")
 
-Oars4X = Card("Oars",4,"red","deck",
+# Age 4 - 6/6 - Oars (duplicate)
+Oars4X = Card("Oars4X",4,"red","deck",
 	"castle","crown","none","castle",
 	"demand","castle","I demand you transfer a card with a [crown] from your hand to my score pile! If you do, draw a [1].",
 	"coop","castle","If no cards were transferred due to this demand, draw a [1].")
 
 ## BUILD THE DECK
 
+# The deck is an "Ages" class consisting of "Card" classes.
+# See the setup of the "Ages" class for how to address all of the card elements.
 Deck = Ages((Archery,ArcheryX,ArcheryXX,Metalworking,MetalworkingX,MetalworkingXX,Oars,OarsX,OarsXX),
 	(Archery2,Archery2X,Metalworking2,Metalworking2X,Oars2,Oars2X),
 	(Archery3,Archery3X,Metalworking3,Metalworking3X,Oars3,Oars3X),
@@ -240,57 +325,66 @@ Deck = Ages((Archery,ArcheryX,ArcheryXX,Metalworking,MetalworkingX,MetalworkingX
 
 ## DEFINE DOMAINS
 
+# Domain - 1/5 - Monument
 Monument = Domain("Monument",
 	"Claim this special achievement immediately if you guck six or score six cards during a single turn.")
 
+# Domain - 2/5 - Empire
 Empire = Domain("Empire",
 	"Claim this special achievement immediately if you have three or more icons of all six types: [bulb] [leaf] [factory] [clock] [crown] [castle].")
 
+# Domain - 3/5 - Wonder
 Wonder = Domain("Wonder",
 	"Claim this special achievement immediately if you have five colors on your board, and each is splayed either up or right.")
 
+# Domain - 4/5 - World
 World = Domain("World",
 	"Claim this special achievement immediately if you have twelve or more [clocks] on your board.")
 
+# Domain - 5/5 - Universe
 Universe = Domain("Universe",
 	"Claim this special achievement immediately if you have five top cards, and each is of value 8 or higher.")
 
 ## BUILD THE DOMINATIONS
 
+# Grab indexes for all Age 1 cards:
 arr = [i for i in range(len(Deck.a1))]
+# Arrange them randomly:
 random.shuffle(arr)
-for i in arr:
-	if Deck.a1[i].location == "deck":
-		Deck.a1[i].location = "domination"
-		break
+# Put the first card in the dominations:
+Deck.a1[0].location = "domination"
 
+# Grab indexes for all Age 2 cards:
 arr = [i for i in range(len(Deck.a2))]
+# Arrange them randomly:
 random.shuffle(arr)
-for i in arr:
-	if Deck.a2[i].location == "deck":
-		Deck.a2[i].location = "domination"
-		break
+# Put the first card in the dominations:
+Deck.a2[0].location = "domination"
 
+# Grab indexes for all Age 3 cards:
 arr = [i for i in range(len(Deck.a3))]
+# Arrange them randomly:
 random.shuffle(arr)
-for i in arr:
-	if Deck.a3[i].location == "deck":
-		Deck.a3[i].location = "domination"
-		break
+# Put the first card in the dominations:
+Deck.a3[0].location = "domination"
 
+# Grab indexes for all Age 4 cards:
 arr = [i for i in range(len(Deck.a4))]
+# Arrange them randomly:
 random.shuffle(arr)
-for i in arr:
-	if Deck.a4[i].location == "deck":
-		Deck.a4[i].location = "domination"
-		break
+# Put the first card in the dominations:
+Deck.a4[0].location = "domination"
 
 ## DEAL CARDS
 
+# Grab indexes for all Age 1 cards:
 arr = [i for i in range(len(Deck.a1))]
+# Arrange them randomly:
 random.shuffle(arr)
+# Keep track of how many cards are in each player's hand:
 p1count = 0
 p2count = 0
+# Loop through shuffled cards, deal to players if the cards are in the deck, 2 cards per hand:
 for i in arr:
 	if Deck.a1[i].location == "deck" and p1count < 2:
 		Deck.a1[i].location = "p1hand"
@@ -298,3 +392,6 @@ for i in arr:
 	if Deck.a1[i].location == "deck" and p2count < 2:
 		Deck.a1[i].location = "p2hand"
 		p2count = p2count + 1
+
+print(getcards("p1hand",Deck))
+print(getcards("p2hand",Deck))
