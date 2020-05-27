@@ -4,6 +4,9 @@ import random
 
 ## FUNCTIONS
 
+# Function to show card info:
+#def cardinfo(what,thedeck):
+
 # Function to quickly grab specific cards (a player's hand, the deck, the dominations, etc.):
 def getcards(what,thedeck):
 	# Get then length of each Age array:
@@ -63,10 +66,29 @@ def getcards(what,thedeck):
 	elif what == "deck":
 		return indeck
 
+# Function for Player 1 to pick initial card to play:
+def p1initial(thedeck):
+	# Get the length of the Age 1 array:
+	a1len = len(thedeck.a1)
+	# Grab the locations of Player 1's cards:
+	p1handloc = []
+	for i in range(a1len):
+		if thedeck.a1[i].location == "p1hand":
+			p1handloc = p1handloc+[i]
+	# Ask for choice:
+	print("Player 1 starting cards:")
+	print("1 - "+thedeck.a1[p1handloc[0]].name)
+	print("2 - "+thedeck.a1[p1handloc[1]].name)
+	p1choice = input("Choose a card to play first: ")
+	if p1choice == "1":
+		return p1handloc[0]
+	elif p1choice == "2":
+		return p1handloc[1]
+
 # Function for Player 2 to pick initial card to play:
 # (order taken from online ranking of opening cards, can't remember where though)
 def p2initial(thedeck):
-	# Get then length of the Age 1 array:
+	# Get the length of the Age 1 array:
 	a1len = len(thedeck.a1)
 	# Grab the locations of Player 2's cards:
 	p2handloc = []
@@ -467,7 +489,14 @@ for i in arr:
 
 # Note - Player 2 will be the computer player.
 
+# Have Player 1 choose a card:
+p1choice = p1initial(Deck)
+Deck.a1[p1choice].location = "p1field"
+
 # Have Player 2 choose a card:
 p2choice = p2initial(Deck)
-print(getcards("p2hand",Deck))
-print(Deck.a1[p2choice].name)
+Deck.a1[p2choice].location = "p2field"
+
+# Print out starting cards:
+print("\nPlayer 1 has chosen to start with "+Deck.a1[p1choice].name)
+print("Player 2 has chosen to start with "+Deck.a1[p2choice].name)
