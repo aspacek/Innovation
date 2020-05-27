@@ -11,35 +11,105 @@ def getcards(what,thedeck):
 	a2len = len(thedeck.a2)
 	a3len = len(thedeck.a3)
 	a4len = len(thedeck.a4)
-	# Initialize the player hands:
+	# Initialize the various subsets:
 	p1hand = []
 	p2hand = []
+	dominations = []
+	indeck = []
 	# Loop through the whole deck:
 	for i in range(a1len):
 		if thedeck.a1[i].location == "p1hand":
 			p1hand = p1hand+[thedeck.a1[i].name]
 		elif thedeck.a1[i].location == "p2hand":
 			p2hand = p2hand+[thedeck.a1[i].name]
+		elif thedeck.a1[i].location == "domination":
+			dominations = dominations+[thedeck.a1[i].name]
+		elif thedeck.a1[i].location == "deck":
+			indeck = indeck+[thedeck.a1[i].name]
 	for i in range(a2len):
 		if thedeck.a2[i].location == "p1hand":
 			p1hand = p1hand+[thedeck.a2[i].name]
 		elif thedeck.a2[i].location == "p2hand":
 			p2hand = p2hand+[thedeck.a2[i].name]
+		elif thedeck.a2[i].location == "domination":
+			dominations = dominations+[thedeck.a2[i].name]
+		elif thedeck.a2[i].location == "deck":
+			indeck = indeck+[thedeck.a2[i].name]
 	for i in range(a3len):
 		if thedeck.a3[i].location == "p1hand":
 			p1hand = p1hand+[thedeck.a3[i].name]
 		elif thedeck.a3[i].location == "p2hand":
 			p2hand = p2hand+[thedeck.a3[i].name]
+		elif thedeck.a3[i].location == "domination":
+			dominations = dominations+[thedeck.a3[i].name]
+		elif thedeck.a3[i].location == "deck":
+			indeck = indeck+[thedeck.a3[i].name]
 	for i in range(a4len):
 		if thedeck.a4[i].location == "p1hand":
 			p1hand = p1hand+[thedeck.a4[i].name]
 		elif thedeck.a4[i].location == "p2hand":
 			p2hand = p2hand+[thedeck.a4[i].name]
+		elif thedeck.a4[i].location == "domination":
+			dominations = dominations+[thedeck.a4[i].name]
+		elif thedeck.a4[i].location == "deck":
+			indeck = indeck+[thedeck.a4[i].name]
 	# Return desired info:
 	if what == "p1hand":
 		return p1hand
 	elif what == "p2hand":
 		return p2hand
+	elif what == "dominations":
+		return dominations
+	elif what == "deck":
+		return indeck
+
+# Function for Player 2 to pick initial card to play:
+# (order taken from online ranking of opening cards, can't remember where though)
+def p2initial(thedeck):
+	# Get then length of the Age 1 array:
+	a1len = len(thedeck.a1)
+	# Grab the locations of Player 2's cards:
+	p2handloc = []
+	for i in range(a1len):
+		if thedeck.a1[i].location == "p2hand":
+			p2handloc = p2handloc+[i]
+	# Choose the best card to play:
+	if thedeck.a1[p2handloc[0]].name == "Metalworking":
+		return p2handloc[0]
+	elif thedeck.a1[p2handloc[1]].name == "Metalworking":
+		return p2handloc[1]
+	elif thedeck.a1[p2handloc[0]].name == "MetalworkingX":
+		return p2handloc[0]
+	elif thedeck.a1[p2handloc[1]].name == "MetalworkingX":
+		return p2handloc[1]
+	elif thedeck.a1[p2handloc[0]].name == "MetalworkingXX":
+		return p2handloc[0]
+	elif thedeck.a1[p2handloc[1]].name == "MetalworkingXX":
+		return p2handloc[1]
+	elif thedeck.a1[p2handloc[0]].name == "Oars":
+		return p2handloc[0]
+	elif thedeck.a1[p2handloc[1]].name == "Oars":
+		return p2handloc[1]
+	elif thedeck.a1[p2handloc[0]].name == "OarsX":
+		return p2handloc[0]
+	elif thedeck.a1[p2handloc[1]].name == "OarsX":
+		return p2handloc[1]
+	elif thedeck.a1[p2handloc[0]].name == "OarsXX":
+		return p2handloc[0]
+	elif thedeck.a1[p2handloc[1]].name == "OarsXX":
+		return p2handloc[1]
+	elif thedeck.a1[p2handloc[0]].name == "Archery":
+		return p2handloc[0]
+	elif thedeck.a1[p2handloc[1]].name == "Archery":
+		return p2handloc[1]
+	elif thedeck.a1[p2handloc[0]].name == "ArcheryX":
+		return p2handloc[0]
+	elif thedeck.a1[p2handloc[1]].name == "ArcheryX":
+		return p2handloc[1]
+	elif thedeck.a1[p2handloc[0]].name == "ArcheryXX":
+		return p2handloc[0]
+	elif thedeck.a1[p2handloc[1]].name == "ArcheryXX":
+		return p2handloc[1]
 
 ## PRINT OPENING TEXT
 
@@ -352,28 +422,28 @@ arr = [i for i in range(len(Deck.a1))]
 # Arrange them randomly:
 random.shuffle(arr)
 # Put the first card in the dominations:
-Deck.a1[0].location = "domination"
+Deck.a1[arr[0]].location = "domination"
 
 # Grab indexes for all Age 2 cards:
 arr = [i for i in range(len(Deck.a2))]
 # Arrange them randomly:
 random.shuffle(arr)
 # Put the first card in the dominations:
-Deck.a2[0].location = "domination"
+Deck.a2[arr[0]].location = "domination"
 
 # Grab indexes for all Age 3 cards:
 arr = [i for i in range(len(Deck.a3))]
 # Arrange them randomly:
 random.shuffle(arr)
 # Put the first card in the dominations:
-Deck.a3[0].location = "domination"
+Deck.a3[arr[0]].location = "domination"
 
 # Grab indexes for all Age 4 cards:
 arr = [i for i in range(len(Deck.a4))]
 # Arrange them randomly:
 random.shuffle(arr)
 # Put the first card in the dominations:
-Deck.a4[0].location = "domination"
+Deck.a4[arr[0]].location = "domination"
 
 ## DEAL CARDS
 
@@ -393,5 +463,11 @@ for i in arr:
 		Deck.a1[i].location = "p2hand"
 		p2count = p2count + 1
 
-print(getcards("p1hand",Deck))
+## PLAY FIRST CARDS
+
+# Note - Player 2 will be the computer player.
+
+# Have Player 2 choose a card:
+p2choice = p2initial(Deck)
 print(getcards("p2hand",Deck))
+print(Deck.a1[p2choice].name)
