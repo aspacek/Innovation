@@ -5,7 +5,80 @@ import random
 ## FUNCTIONS
 
 # Function to show card info:
-#def cardinfo(what,thedeck):
+def cardinfo(what,thedeck):
+	if what == "p1hand":
+		# Get then length of each Age array:
+		a1len = len(thedeck.a1)
+		a2len = len(thedeck.a2)
+		a3len = len(thedeck.a3)
+		a4len = len(thedeck.a4)
+		# Show the info of the p1hand cards:
+		for i in range(a1len):
+			if thedeck.a1[i].location == "p1hand":
+				print("\n***********************")
+				print(thedeck.a1[i].name)
+				print("Age = "+str(thedeck.a1[i].age))
+				print("Color = "+thedeck.a1[i].color)
+				print("-----")
+				print("|"+thedeck.a1[i].syms.ul)
+				print("|"+thedeck.a1[i].syms.dl+"   "+thedeck.a1[i].syms.dm+"   "+thedeck.a1[i].syms.dr)
+				print("-----")
+				print(thedeck.a1[i].effect1.cost)
+				print(thedeck.a1[i].effect1.type)
+				print(thedeck.a1[i].effect1.text)
+				if thedeck.a1[i].effect2.text != "":
+					print(thedeck.a1[i].effect2.cost)
+					print(thedeck.a1[i].effect2.type)
+					print(thedeck.a1[i].effect2.text)
+				print("***********************")
+		for i in range(a2len):
+			if thedeck.a2[i].location == "p1hand":
+				print("\n***********************")
+				print(thedeck.a2[i].name)
+				print("Age = "+str(thedeck.a2[i].age))
+				print("Color = "+thedeck.a2[i].color)
+				print(thedeck.a2[i].syms.ul)
+				print(thedeck.a2[i].syms.dl+"   "+thedeck.a2[i].syms.dm+"   "+thedeck.a2[i].syms.dr)
+				print(thedeck.a2[i].effect1.cost)
+				print(thedeck.a2[i].effect1.type)
+				print(thedeck.a2[i].effect1.text)
+				if thedeck.a2[i].effect2.text != "":
+					print(thedeck.a2[i].effect2.cost)
+					print(thedeck.a2[i].effect2.type)
+					print(thedeck.a2[i].effect2.text)
+				print("***********************")
+		for i in range(a3len):
+			if thedeck.a3[i].location == "p1hand":
+				print("\n***********************")
+				print(thedeck.a3[i].name)
+				print("Age = "+str(thedeck.a3[i].age))
+				print("Color = "+thedeck.a3[i].color)
+				print(thedeck.a3[i].syms.ul)
+				print(thedeck.a3[i].syms.dl+"   "+thedeck.a3[i].syms.dm+"   "+thedeck.a3[i].syms.dr)
+				print(thedeck.a3[i].effect1.cost)
+				print(thedeck.a3[i].effect1.type)
+				print(thedeck.a3[i].effect1.text)
+				if thedeck.a3[i].effect2.text != "":
+					print(thedeck.a3[i].effect2.cost)
+					print(thedeck.a3[i].effect2.type)
+					print(thedeck.a3[i].effect2.text)
+				print("***********************")
+		for i in range(a4len):
+			if thedeck.a4[i].location == "p1hand":
+				print("\n***********************")
+				print(thedeck.a4[i].name)
+				print("Age = "+str(thedeck.a4[i].age))
+				print("Color = "+thedeck.a4[i].color)
+				print(thedeck.a4[i].syms.ul)
+				print(thedeck.a4[i].syms.dl+"   "+thedeck.a4[i].syms.dm+"   "+thedeck.a4[i].syms.dr)
+				print(thedeck.a4[i].effect1.cost)
+				print(thedeck.a4[i].effect1.type)
+				print(thedeck.a4[i].effect1.text)
+				if thedeck.a4[i].effect2.text != "":
+					print(thedeck.a4[i].effect2.cost)
+					print(thedeck.a4[i].effect2.type)
+					print(thedeck.a4[i].effect2.text)
+				print("***********************")
 
 # Function to quickly grab specific cards (a player's hand, the deck, the dominations, etc.):
 def getcards(what,thedeck):
@@ -79,11 +152,15 @@ def p1initial(thedeck):
 	print("Player 1 starting cards:")
 	print("1 - "+thedeck.a1[p1handloc[0]].name)
 	print("2 - "+thedeck.a1[p1handloc[1]].name)
-	p1choice = input("Choose a card to play first: ")
-	if p1choice == "1":
-		return p1handloc[0]
-	elif p1choice == "2":
-		return p1handloc[1]
+	flag = 0
+	while flag == 0:
+		p1choice = input("\nChoose a card to play first, or 0 for card info: ")
+		if p1choice == "0":
+			cardinfo("p1hand",thedeck)
+		elif p1choice == "1":
+			return p1handloc[0]
+		elif p1choice == "2":
+			return p1handloc[1]
 
 # Function for Player 2 to pick initial card to play:
 # (order taken from online ranking of opening cards, can't remember where though)
@@ -138,7 +215,8 @@ def p2initial(thedeck):
 print("\n    ****************")
 print(  "    ** Innovation **")
 print(  "    ****************\n")
-print(  "Developed by Alex Spacek")
+print(  "    Code Developed By")
+print(  "       Alex Spacek")
 print(  "     5/8/19-5/27/20\n")
 
 ## DEFINE CLASSES
@@ -500,3 +578,6 @@ Deck.a1[p2choice].location = "p2field"
 # Print out starting cards:
 print("\nPlayer 1 has chosen to start with "+Deck.a1[p1choice].name)
 print("Player 2 has chosen to start with "+Deck.a1[p2choice].name)
+
+# Lowest card alphabetically goes first:
+#goesfirst
