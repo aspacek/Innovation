@@ -4,6 +4,45 @@ import random
 
 ## FUNCTIONS
 
+# Function to decide who goes first (by the lowest card alphabetically):
+def goesfirst(p1choice,p2choice,thedeck):
+	if thedeck.a1[p1choice].name == "Archery":
+		return 1
+	elif thedeck.a1[p2choice].name == "Archery":
+		return 2
+	elif thedeck.a1[p1choice].name == "ArcheryX":
+		return 1
+	elif thedeck.a1[p2choice].name == "ArcheryX":
+		return 2
+	elif thedeck.a1[p1choice].name == "ArcheryXX":
+		return 1
+	elif thedeck.a1[p2choice].name == "ArcheryXX":
+		return 2
+	elif thedeck.a1[p1choice].name == "Metalworking":
+		return 1
+	elif thedeck.a1[p2choice].name == "Metalworking":
+		return 2
+	elif thedeck.a1[p1choice].name == "MetalworkingX":
+		return 1
+	elif thedeck.a1[p2choice].name == "MetalworkingX":
+		return 2
+	elif thedeck.a1[p1choice].name == "MetalworkingXX":
+		return 1
+	elif thedeck.a1[p2choice].name == "MetalworkingXX":
+		return 2
+	elif thedeck.a1[p1choice].name == "Oars":
+		return 1
+	elif thedeck.a1[p2choice].name == "Oars":
+		return 2
+	elif thedeck.a1[p1choice].name == "OarsX":
+		return 1
+	elif thedeck.a1[p2choice].name == "OarsX":
+		return 2
+	elif thedeck.a1[p1choice].name == "OarsXX":
+		return 1
+	elif thedeck.a1[p2choice].name == "OarsXX":
+		return 2
+
 # Function to show card info:
 def cardinfo(what,thedeck):
 	if what == "p1hand":
@@ -23,13 +62,9 @@ def cardinfo(what,thedeck):
 				print("|"+thedeck.a1[i].syms.ul)
 				print("|"+thedeck.a1[i].syms.dl+"   "+thedeck.a1[i].syms.dm+"   "+thedeck.a1[i].syms.dr)
 				print("-----")
-				print(thedeck.a1[i].effect1.cost)
-				print(thedeck.a1[i].effect1.type)
-				print(thedeck.a1[i].effect1.text)
+				print(thedeck.a1[i].effect1.cost+" - "+thedeck.a1[i].effect1.type+" - "+thedeck.a1[i].effect1.text)
 				if thedeck.a1[i].effect2.text != "":
-					print(thedeck.a1[i].effect2.cost)
-					print(thedeck.a1[i].effect2.type)
-					print(thedeck.a1[i].effect2.text)
+					print(thedeck.a1[i].effect2.cost+" - "+thedeck.a1[i].effect2.type+" - "+thedeck.a1[i].effect2.text)
 				print("***********************")
 		for i in range(a2len):
 			if thedeck.a2[i].location == "p1hand":
@@ -39,13 +74,9 @@ def cardinfo(what,thedeck):
 				print("Color = "+thedeck.a2[i].color)
 				print(thedeck.a2[i].syms.ul)
 				print(thedeck.a2[i].syms.dl+"   "+thedeck.a2[i].syms.dm+"   "+thedeck.a2[i].syms.dr)
-				print(thedeck.a2[i].effect1.cost)
-				print(thedeck.a2[i].effect1.type)
-				print(thedeck.a2[i].effect1.text)
+				print(thedeck.a2[i].effect1.cost+" - "+thedeck.a2[i].effect1.type+" - "+thedeck.a2[i].effect1.text)
 				if thedeck.a2[i].effect2.text != "":
-					print(thedeck.a2[i].effect2.cost)
-					print(thedeck.a2[i].effect2.type)
-					print(thedeck.a2[i].effect2.text)
+					print(thedeck.a2[i].effect2.cost+" - "+thedeck.a2[i].effect2.type+" - "+thedeck.a2[i].effect2.text)
 				print("***********************")
 		for i in range(a3len):
 			if thedeck.a3[i].location == "p1hand":
@@ -55,13 +86,9 @@ def cardinfo(what,thedeck):
 				print("Color = "+thedeck.a3[i].color)
 				print(thedeck.a3[i].syms.ul)
 				print(thedeck.a3[i].syms.dl+"   "+thedeck.a3[i].syms.dm+"   "+thedeck.a3[i].syms.dr)
-				print(thedeck.a3[i].effect1.cost)
-				print(thedeck.a3[i].effect1.type)
-				print(thedeck.a3[i].effect1.text)
+				print(thedeck.a3[i].effect1.cost+" - "+thedeck.a3[i].effect1.type+" - "+thedeck.a3[i].effect1.text)
 				if thedeck.a3[i].effect2.text != "":
-					print(thedeck.a3[i].effect2.cost)
-					print(thedeck.a3[i].effect2.type)
-					print(thedeck.a3[i].effect2.text)
+					print(thedeck.a2[i].effect2.cost+" - "+thedeck.a2[i].effect2.type+" - "+thedeck.a2[i].effect2.text)
 				print("***********************")
 		for i in range(a4len):
 			if thedeck.a4[i].location == "p1hand":
@@ -71,13 +98,9 @@ def cardinfo(what,thedeck):
 				print("Color = "+thedeck.a4[i].color)
 				print(thedeck.a4[i].syms.ul)
 				print(thedeck.a4[i].syms.dl+"   "+thedeck.a4[i].syms.dm+"   "+thedeck.a4[i].syms.dr)
-				print(thedeck.a4[i].effect1.cost)
-				print(thedeck.a4[i].effect1.type)
-				print(thedeck.a4[i].effect1.text)
+				print(thedeck.a4[i].effect1.cost+" - "+thedeck.a4[i].effect1.type+" - "+thedeck.a4[i].effect1.text)
 				if thedeck.a4[i].effect2.text != "":
-					print(thedeck.a4[i].effect2.cost)
-					print(thedeck.a4[i].effect2.type)
-					print(thedeck.a4[i].effect2.text)
+					print(thedeck.a2[i].effect2.cost+" - "+thedeck.a2[i].effect2.type+" - "+thedeck.a2[i].effect2.text)
 				print("***********************")
 
 # Function to quickly grab specific cards (a player's hand, the deck, the dominations, etc.):
@@ -336,8 +359,8 @@ ArcheryX = Card("ArcheryX",1,"red","deck",
 
 # Age 1 - 3/9 - Archery (duplicate)
 ArcheryXX = Card("ArcheryXX",1,"red","deck",
-	"leaf","bulb","none","leaf",
-	"demand","leaf","I demand you draw a [1], then transfer the highest card in your hand to my hand!",
+	"castle","bulb","none","castle",
+	"demand","castle","I demand you draw a [1], then transfer the highest card in your hand to my hand!",
 	"","","")
 
 # Age 2 - 1/6 - Archery (duplicate)
@@ -390,8 +413,8 @@ MetalworkingX = Card("MetalworkingX",1,"red","deck",
 
 # Age 1 - 6/9 - Metalworking (duplicate)
 MetalworkingXX = Card("MetalworkingXX",1,"red","deck",
-	"crown","crown","none","crown",
-	"coop","crown","Draw and reveal a [1]. If it has a [crown], score it and repeat this dogma effect. Otherwise, keep it.",
+	"castle","castle","none","castle",
+	"coop","castle","Draw and reveal a [1]. If it has a [castle], score it and repeat this dogma effect. Otherwise, keep it.",
 	"","","")
 
 # Age 2 - 3/6 - Metalworking (duplicate)
@@ -444,8 +467,8 @@ OarsX = Card("OarsX",1,"red","deck",
 
 # Age 1 - 9/9 - Oars (duplicate)
 OarsXX = Card("OarsXX",1,"red","deck",
-	"bulb","crown","none","bulb",
-	"demand","bulb","I demand you transfer a card with a [crown] from your hand to my score pile! If you do, draw a [1].",
+	"castle","crown","none","castle",
+	"demand","castle","I demand you transfer a card with a [crown] from your hand to my score pile! If you do, draw a [1].",
 	"coop","castle","If no cards were transferred due to this demand, draw a [1].")
 
 # Age 2 - 5/6 - Oars (duplicate)
@@ -576,8 +599,12 @@ p2choice = p2initial(Deck)
 Deck.a1[p2choice].location = "p2field"
 
 # Print out starting cards:
-print("\nPlayer 1 has chosen to start with "+Deck.a1[p1choice].name)
-print("Player 2 has chosen to start with "+Deck.a1[p2choice].name)
+print("\nPlayer 1 has chosen to start with - "+Deck.a1[p1choice].name)
+print(  "Player 2 has chosen to start with - "+Deck.a1[p2choice].name)
 
 # Lowest card alphabetically goes first:
-#goesfirst
+starter = goesfirst(p1choice,p2choice,Deck)
+if starter == 1:
+	print("\nPlayer 1 has the lowest card alphabetically and goes first")
+elif starter == 2:
+	print("\nPlayer 2 has the lowest card alphabetically and goes first")
