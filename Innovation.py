@@ -115,6 +115,8 @@ def getcards(what,thedeck):
 	p2hand = []
 	dominations = []
 	indeck = []
+	inp1field = []
+	inp2field = []
 	# Loop through the whole deck:
 	for i in range(a1len):
 		if thedeck.a1[i].location == "p1hand":
@@ -125,6 +127,10 @@ def getcards(what,thedeck):
 			dominations = dominations+[thedeck.a1[i].name]
 		elif thedeck.a1[i].location == "deck":
 			indeck = indeck+[thedeck.a1[i].name]
+		elif thedeck.a1[i].location == "p1field":
+			inp1field = inp1field+[thedeck.a1[i].name]
+		elif thedeck.a1[i].location == "p2field":
+			inp2field = inp2field+[thedeck.a1[i].name]
 	for i in range(a2len):
 		if thedeck.a2[i].location == "p1hand":
 			p1hand = p1hand+[thedeck.a2[i].name]
@@ -134,6 +140,10 @@ def getcards(what,thedeck):
 			dominations = dominations+[thedeck.a2[i].name]
 		elif thedeck.a2[i].location == "deck":
 			indeck = indeck+[thedeck.a2[i].name]
+		elif thedeck.a2[i].location == "p1field":
+			inp1field = inp1field+[thedeck.a2[i].name]
+		elif thedeck.a2[i].location == "p2field":
+			inp2field = inp2field+[thedeck.a2[i].name]
 	for i in range(a3len):
 		if thedeck.a3[i].location == "p1hand":
 			p1hand = p1hand+[thedeck.a3[i].name]
@@ -143,6 +153,10 @@ def getcards(what,thedeck):
 			dominations = dominations+[thedeck.a3[i].name]
 		elif thedeck.a3[i].location == "deck":
 			indeck = indeck+[thedeck.a3[i].name]
+		elif thedeck.a3[i].location == "p1field":
+			inp1field = inp1field+[thedeck.a3[i].name]
+		elif thedeck.a3[i].location == "p2field":
+			inp2field = inp2field+[thedeck.a3[i].name]
 	for i in range(a4len):
 		if thedeck.a4[i].location == "p1hand":
 			p1hand = p1hand+[thedeck.a4[i].name]
@@ -152,6 +166,10 @@ def getcards(what,thedeck):
 			dominations = dominations+[thedeck.a4[i].name]
 		elif thedeck.a4[i].location == "deck":
 			indeck = indeck+[thedeck.a4[i].name]
+		elif thedeck.a4[i].location == "p1field":
+			inp1field = inp1field+[thedeck.a4[i].name]
+		elif thedeck.a4[i].location == "p2field":
+			inp2field = inp2field+[thedeck.a4[i].name]
 	# Return desired info:
 	if what == "p1hand":
 		return p1hand
@@ -161,6 +179,10 @@ def getcards(what,thedeck):
 		return dominations
 	elif what == "deck":
 		return indeck
+	elif what == "p1field":
+		return inp1field
+	elif what == "p2field":
+		return inp2field
 
 # Function for Player 1 to pick initial card to play:
 def p1initial(thedeck):
@@ -276,7 +298,7 @@ class Effects:
 
 # Card:
 # Initiate by:
-#   test = Card("Archery",1,"red","deck",
+#   test = Card("Archery",1,"red","deck",-1,"none",
 #               "castle","bulb","none","castle",
 #               "demand","castle","I demand you draw a [1], then transfer the highest card in your hand to my hand!",
 #               "","","")
@@ -285,6 +307,8 @@ class Effects:
 #   test.age = 1
 #   test.color = "red"
 #   test.location = "deck"
+#	test.place = -1
+#	test.splay = "none"
 #   test.syms.ul = "castle"
 #   test.syms.dl = "bulb"
 #   test.syms.dm = "none"
@@ -297,11 +321,13 @@ class Effects:
 #   test.effect2.text = ""
 # These Cards will be defined, placed in the "Ages" class, and assembled into the "Deck" later.
 class Card:
-	def __init__(self,name,age,color,location,ul,dl,dm,dr,type1,cost1,text1,type2,cost2,text2):
+	def __init__(self,name,age,color,location,place,splay,ul,dl,dm,dr,type1,cost1,text1,type2,cost2,text2):
 		self.name = name
 		self.age = age
 		self.color = color
 		self.location = location
+		self.place = place
+		self.splay = splay
 		self.syms = Symbols(ul,dl,dm,dr)
 		self.effect1 = Effects(type1,cost1,text1)
 		self.effect2 = Effects(type2,cost2,text2)
@@ -346,163 +372,163 @@ class Ages:
 #        Age 4 - 2x each = 6 total
 
 # Age 1 - 1/9 - Archery
-Archery = Card("Archery",1,"red","deck",
+Archery = Card("Archery",1,"red","deck",-1,"none",
 	"castle","bulb","none","castle",
 	"demand","castle","I demand you draw a [1], then transfer the highest card in your hand to my hand!",
 	"","","")
 
 # Age 1 - 2/9 - Archery (duplicate)
-ArcheryX = Card("ArcheryX",1,"red","deck",
+ArcheryX = Card("ArcheryX",1,"red","deck",-1,"none",
 	"castle","bulb","none","castle",
 	"demand","castle","I demand you draw a [1], then transfer the highest card in your hand to my hand!",
 	"","","")
 
 # Age 1 - 3/9 - Archery (duplicate)
-ArcheryXX = Card("ArcheryXX",1,"red","deck",
+ArcheryXX = Card("ArcheryXX",1,"red","deck",-1,"none",
 	"castle","bulb","none","castle",
 	"demand","castle","I demand you draw a [1], then transfer the highest card in your hand to my hand!",
 	"","","")
 
 # Age 2 - 1/6 - Archery (duplicate)
-Archery2 = Card("Archery2",2,"red","deck",
+Archery2 = Card("Archery2",2,"red","deck",-1,"none",
 	"castle","bulb","none","castle",
 	"demand","castle","I demand you draw a [1], then transfer the highest card in your hand to my hand!",
 	"","","")
 
 # Age 2 - 2/6 - Archery (duplicate)
-Archery2X = Card("Archery2X",2,"red","deck",
+Archery2X = Card("Archery2X",2,"red","deck",-1,"none",
 	"castle","bulb","none","castle",
 	"demand","castle","I demand you draw a [1], then transfer the highest card in your hand to my hand!",
 	"","","")
 
 # Age 3 - 1/6 - Archery (duplicate)
-Archery3 = Card("Archery3",3,"red","deck",
+Archery3 = Card("Archery3",3,"red","deck",-1,"none",
 	"castle","bulb","none","castle",
 	"demand","castle","I demand you draw a [1], then transfer the highest card in your hand to my hand!",
 	"","","")
 
 # Age 3 - 2/6 - Archery (duplicate)
-Archery3X = Card("Archery3X",3,"red","deck",
+Archery3X = Card("Archery3X",3,"red","deck",-1,"none",
 	"castle","bulb","none","castle",
 	"demand","castle","I demand you draw a [1], then transfer the highest card in your hand to my hand!",
 	"","","")
 
 # Age 4 - 1/6 - Archery (duplicate)
-Archery4 = Card("Archery4",4,"red","deck",
+Archery4 = Card("Archery4",4,"red","deck",-1,"none",
 	"castle","bulb","none","castle",
 	"demand","castle","I demand you draw a [1], then transfer the highest card in your hand to my hand!",
 	"","","")
 
 # Age 4 - 2/6 - Archery (duplicate)
-Archery4X = Card("Archery4X",4,"red","deck",
+Archery4X = Card("Archery4X",4,"red","deck",-1,"none",
 	"castle","bulb","none","castle",
 	"demand","castle","I demand you draw a [1], then transfer the highest card in your hand to my hand!",
 	"","","")
 
 # Age 1 - 4/9 - Metalworking
-Metalworking = Card("Metalworking",1,"red","deck",
+Metalworking = Card("Metalworking",1,"red","deck",-1,"none",
 	"castle","castle","none","castle",
 	"coop","castle","Draw and reveal a [1]. If it has a [castle], score it and repeat this dogma effect. Otherwise, keep it.",
 	"","","")
 
 # Age 1 - 5/9 - Metalworking (duplicate)
-MetalworkingX = Card("MetalworkingX",1,"red","deck",
+MetalworkingX = Card("MetalworkingX",1,"red","deck",-1,"none",
 	"castle","castle","none","castle",
 	"coop","castle","Draw and reveal a [1]. If it has a [castle], score it and repeat this dogma effect. Otherwise, keep it.",
 	"","","")
 
 # Age 1 - 6/9 - Metalworking (duplicate)
-MetalworkingXX = Card("MetalworkingXX",1,"red","deck",
+MetalworkingXX = Card("MetalworkingXX",1,"red","deck",-1,"none",
 	"castle","castle","none","castle",
 	"coop","castle","Draw and reveal a [1]. If it has a [castle], score it and repeat this dogma effect. Otherwise, keep it.",
 	"","","")
 
 # Age 2 - 3/6 - Metalworking (duplicate)
-Metalworking2 = Card("Metalworking2",2,"red","deck",
+Metalworking2 = Card("Metalworking2",2,"red","deck",-1,"none",
 	"castle","castle","none","castle",
 	"coop","castle","Draw and reveal a [1]. If it has a [castle], score it and repeat this dogma effect. Otherwise, keep it.",
 	"","","")
 
 # Age 2 - 4/6 - Metalworking (duplicate)
-Metalworking2X = Card("Metalworking2X",2,"red","deck",
+Metalworking2X = Card("Metalworking2X",2,"red","deck",-1,"none",
 	"castle","castle","none","castle",
 	"coop","castle","Draw and reveal a [1]. If it has a [castle], score it and repeat this dogma effect. Otherwise, keep it.",
 	"","","")
 
 # Age 3 - 3/6 - Metalworking (duplicate)
-Metalworking3 = Card("Metalworking3",3,"red","deck",
+Metalworking3 = Card("Metalworking3",3,"red","deck",-1,"none",
 	"castle","castle","none","castle",
 	"coop","castle","Draw and reveal a [1]. If it has a [castle], score it and repeat this dogma effect. Otherwise, keep it.",
 	"","","")
 
 # Age 3 - 4/6 - Metalworking (duplicate)
-Metalworking3X = Card("Metalworking3X",3,"red","deck",
+Metalworking3X = Card("Metalworking3X",3,"red","deck",-1,"none",
 	"castle","castle","none","castle",
 	"coop","castle","Draw and reveal a [1]. If it has a [castle], score it and repeat this dogma effect. Otherwise, keep it.",
 	"","","")
 
 # Age 4 - 3/6 - Metalworking (duplicate)
-Metalworking4 = Card("Metalworking4",4,"red","deck",
+Metalworking4 = Card("Metalworking4",4,"red","deck",-1,"none",
 	"castle","castle","none","castle",
 	"coop","castle","Draw and reveal a [1]. If it has a [castle], score it and repeat this dogma effect. Otherwise, keep it.",
 	"","","")
 
 # Age 4 - 4/6 - Metalworking (duplicate)
-Metalworking4X = Card("Metalworking4X",4,"red","deck",
+Metalworking4X = Card("Metalworking4X",4,"red","deck",-1,"none",
 	"castle","castle","none","castle",
 	"coop","castle","Draw and reveal a [1]. If it has a [castle], score it and repeat this dogma effect. Otherwise, keep it.",
 	"","","")
 
 # Age 1 - 7/9 - Oars
-Oars = Card("Oars",1,"red","deck",
+Oars = Card("Oars",1,"red","deck",-1,"none",
 	"castle","crown","none","castle",
 	"demand","castle","I demand you transfer a card with a [crown] from your hand to my score pile! If you do, draw a [1].",
 	"coop","castle","If no cards were transferred due to this demand, draw a [1].")
 
 # Age 1 - 8/9 - Oars (duplicate)
-OarsX = Card("OarsX",1,"red","deck",
+OarsX = Card("OarsX",1,"red","deck",-1,"none",
 	"castle","crown","none","castle",
 	"demand","castle","I demand you transfer a card with a [crown] from your hand to my score pile! If you do, draw a [1].",
 	"coop","castle","If no cards were transferred due to this demand, draw a [1].")
 
 # Age 1 - 9/9 - Oars (duplicate)
-OarsXX = Card("OarsXX",1,"red","deck",
+OarsXX = Card("OarsXX",1,"red","deck",-1,"none",
 	"castle","crown","none","castle",
 	"demand","castle","I demand you transfer a card with a [crown] from your hand to my score pile! If you do, draw a [1].",
 	"coop","castle","If no cards were transferred due to this demand, draw a [1].")
 
 # Age 2 - 5/6 - Oars (duplicate)
-Oars2 = Card("Oars2",2,"red","deck",
+Oars2 = Card("Oars2",2,"red","deck",-1,"none",
 	"castle","crown","none","castle",
 	"demand","castle","I demand you transfer a card with a [crown] from your hand to my score pile! If you do, draw a [1].",
 	"coop","castle","If no cards were transferred due to this demand, draw a [1].")
 
 # Age 2 - 6/6 - Oars (duplicate)
-Oars2X = Card("Oars2X",2,"red","deck",
+Oars2X = Card("Oars2X",2,"red","deck",-1,"none",
 	"castle","crown","none","castle",
 	"demand","castle","I demand you transfer a card with a [crown] from your hand to my score pile! If you do, draw a [1].",
 	"coop","castle","If no cards were transferred due to this demand, draw a [1].")
 
 # Age 3 - 5/6 - Oars (duplicate)
-Oars3 = Card("Oars3",3,"red","deck",
+Oars3 = Card("Oars3",3,"red","deck",-1,"none",
 	"castle","crown","none","castle",
 	"demand","castle","I demand you transfer a card with a [crown] from your hand to my score pile! If you do, draw a [1].",
 	"coop","castle","If no cards were transferred due to this demand, draw a [1].")
 
 # Age 3 - 6/6 - Oars (duplicate)
-Oars3X = Card("Oars3X",3,"red","deck",
+Oars3X = Card("Oars3X",3,"red","deck",-1,"none",
 	"castle","crown","none","castle",
 	"demand","castle","I demand you transfer a card with a [crown] from your hand to my score pile! If you do, draw a [1].",
 	"coop","castle","If no cards were transferred due to this demand, draw a [1].")
 
 # Age 4 - 5/6 - Oars (duplicate)
-Oars4 = Card("Oars4",4,"red","deck",
+Oars4 = Card("Oars4",4,"red","deck",-1,"none",
 	"castle","crown","none","castle",
 	"demand","castle","I demand you transfer a card with a [crown] from your hand to my score pile! If you do, draw a [1].",
 	"coop","castle","If no cards were transferred due to this demand, draw a [1].")
 
 # Age 4 - 6/6 - Oars (duplicate)
-Oars4X = Card("Oars4X",4,"red","deck",
+Oars4X = Card("Oars4X",4,"red","deck",-1,"none",
 	"castle","crown","none","castle",
 	"demand","castle","I demand you transfer a card with a [crown] from your hand to my score pile! If you do, draw a [1].",
 	"coop","castle","If no cards were transferred due to this demand, draw a [1].")
@@ -608,3 +634,6 @@ if starter == 1:
 	print("\nPlayer 1 has the lowest card alphabetically and goes first")
 elif starter == 2:
 	print("\nPlayer 2 has the lowest card alphabetically and goes first")
+
+print(getcards("p1field",Deck))
+print(getcards("p2field",Deck))
