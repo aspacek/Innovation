@@ -1,3 +1,7 @@
+#### Innovation.py
+#### Program to play the game Innovation in Python.
+#### Last edited 1/5/24 by Alex Spacek
+
 ## IMPORTS
 
 import random
@@ -406,7 +410,7 @@ def p2initial(thedeck):
 		return p2handloc[1]
 
 # Function to draw a card:
-def draw(who,thedeck)
+def draw(who,thedeck):
 	if who == "p1":
 		
 
