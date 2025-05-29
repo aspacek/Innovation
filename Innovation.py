@@ -1,14 +1,48 @@
-#### Innovation.py
-#### Program to play the game Innovation in Python.
-#### Last edited 1/5/24 by Alex Spacek
+########################################################
+#### Innovation.py                                  ####
+#### Program to play the game Innovation in Python. ####
+#### Last edited 5/29/25 by Alex Spacek             ####
+########################################################
 
-## IMPORTS
+#############
+## IMPORTS ##
+#############
 
 import random
 
-## FUNCTIONS
+###########
+## NOTES ##
+###########
 
-# Function to decide who goes first (by the lowest card alphabetically):
+# For now, playing with a simple deck.
+# For Age 1, it is 3 copies of 3 cards.
+# Age 1 - Archery
+# Age 1 - ArcheryX
+# Age 1 - ArcheryXX
+# Age 1 - Metalworking
+# Age 1 - MetalworkingX
+# Age 1 - MetalworkingXX
+# Age 1 - Oars
+# Age 1 - OarsX
+# Age 1 - OarsXX
+
+# The overall multi-dimensional array is thedeck
+# The cards are located at:
+# thedeck.a1[0-8].name = ['Archery','ArcheryX','ArcheryXX',...,'OarsX','OarsXX']
+
+###############
+## FUNCTIONS ##
+###############
+
+## GOESFIRST
+# Function to decide who goes first (by the lowest card alphabetically)
+# Input:
+#  p1choice (int) - location of Age 1 (a1) card Player 1 (p1) is playing first
+#  p2choice (int) - location of Age 1 (a1) card Player 2 (p2) is playing first
+#  thedeck (arr) - the multi-dimensional array of all deck info
+# Output:
+#  return 1 (int) if choice is first alphabetically (tie goes to Player 1)
+#  return 2 (int) if choice is second alphabetically
 def goesfirst(p1choice,p2choice,thedeck):
 	if thedeck.a1[p1choice].name == "Archery":
 		return 1
@@ -47,7 +81,17 @@ def goesfirst(p1choice,p2choice,thedeck):
 	elif thedeck.a1[p2choice].name == "OarsXX":
 		return 2
 
-# Function to show card info:
+## CARDINFO
+# Function to show card info
+# Input:
+#  what (str) - 'p1hand', 'p1field', 'p2field', 'deck'
+#   p1hand (str) - Player 1 (p1) hand
+#   p1field (str) - Player 1 (p1) field (cards in play)
+#   p2field (str) - Player 2 (p2) field (cards in play)
+#   deck (str) - show info about available Age piles
+#  thedeck (arr) - the multi-dimensional array of all deck info
+# Output:
+#  nothing (null) - print out requested info
 def cardinfo(what,thedeck):
 	if what == "p1hand":
 		# Get then length of each Age array:
@@ -257,7 +301,19 @@ def cardinfo(what,thedeck):
 		if flag == 0:
 			piles = piles+"- "
 
-# Function to quickly grab specific cards (a player's hand, the deck, the dominations, etc.):
+## GETCARDS
+# Function to quickly grab specific cards (a player's hand, the deck, the dominations, etc.)
+# Input:
+#  what (str) - 'p1hand', 'p2hand', 'dominations', 'deck', 'p1field', 'p2field'
+#   p1hand (str) - 
+#   p2hand (str) - 
+#   dominations (str) - 
+#   deck (str) - 
+#   p1field (str) - 
+#   p2field (str) - 
+#  thedeck (arr) - the multi-dimensional array of all deck info
+# Output:
+#  array (arr) - an array of the requested info (e.g. an array of the card names in Player 1's hand)
 def getcards(what,thedeck):
 	# Get then length of each Age array:
 	a1len = len(thedeck.a1)
@@ -338,7 +394,12 @@ def getcards(what,thedeck):
 	elif what == "p2field":
 		return inp2field
 
-# Function for Player 1 to pick initial card to play:
+## P1INITIAL
+# Function for Player 1 to pick initial card to play
+# Input:
+#  thedeck (arr) - the multi-dimensional array of all deck info
+# Output:
+#  location (int) - the location of Player 1's choice (i.e. thedeck.a1[location])
 def p1initial(thedeck):
 	# Get the length of the Age 1 array:
 	a1len = len(thedeck.a1)
@@ -361,8 +422,13 @@ def p1initial(thedeck):
 		elif p1choice == "2":
 			return p1handloc[1]
 
-# Function for Player 2 to pick initial card to play:
-# (order taken from online ranking of opening cards, can't remember where though)
+## P2INITIAL
+# Function for Player 2 to pick initial card to play
+# (for now I'm making it the first card alphabetically)
+# Input:
+#  thedeck (arr) - the multi-dimensional array of all deck info
+# Output:
+#  location (int) - the location of Player 2's choice (i.e. thedeck.a1[location])
 def p2initial(thedeck):
 	# Get the length of the Age 1 array:
 	a1len = len(thedeck.a1)
@@ -372,7 +438,19 @@ def p2initial(thedeck):
 		if thedeck.a1[i].location == "p2hand":
 			p2handloc = p2handloc+[i]
 	# Choose the best card to play:
-	if thedeck.a1[p2handloc[0]].name == "Metalworking":
+	if thedeck.a1[p2handloc[0]].name == "Archery":
+		return p2handloc[0]
+	elif thedeck.a1[p2handloc[1]].name == "Archery":
+		return p2handloc[1]
+	elif thedeck.a1[p2handloc[0]].name == "ArcheryX":
+		return p2handloc[0]
+	elif thedeck.a1[p2handloc[1]].name == "ArcheryX":
+		return p2handloc[1]
+	elif thedeck.a1[p2handloc[0]].name == "ArcheryXX":
+		return p2handloc[0]
+	elif thedeck.a1[p2handloc[1]].name == "ArcheryXX":
+		return p2handloc[1]
+	elif thedeck.a1[p2handloc[0]].name == "Metalworking":
 		return p2handloc[0]
 	elif thedeck.a1[p2handloc[1]].name == "Metalworking":
 		return p2handloc[1]
@@ -396,48 +474,33 @@ def p2initial(thedeck):
 		return p2handloc[0]
 	elif thedeck.a1[p2handloc[1]].name == "OarsXX":
 		return p2handloc[1]
-	elif thedeck.a1[p2handloc[0]].name == "Archery":
-		return p2handloc[0]
-	elif thedeck.a1[p2handloc[1]].name == "Archery":
-		return p2handloc[1]
-	elif thedeck.a1[p2handloc[0]].name == "ArcheryX":
-		return p2handloc[0]
-	elif thedeck.a1[p2handloc[1]].name == "ArcheryX":
-		return p2handloc[1]
-	elif thedeck.a1[p2handloc[0]].name == "ArcheryXX":
-		return p2handloc[0]
-	elif thedeck.a1[p2handloc[1]].name == "ArcheryXX":
-		return p2handloc[1]
 
-# Function to draw a card:
+## DRAW
+# Function to draw a card
+# Input:
+#  who (str) - 'p1', 'p2'
+#   p1 - Player 1
+#   p2 - Player 2
+#  thedeck (arr) - the multi-dimensional array of all deck info
+# Output:
+#  nothing (null)
 def draw(who,thedeck):
 	if who == "p1":
 		
 
-# Function for Player 1 to take their first turn:
-def p1firstturn(thedeck):
-	# Ask for choice:
-	print("Player 1: Choose an action, or check game info: ")
-	print("0 - Hand info")
-	print("1 - Field info")
-	print("2 - Draw")
-	print("3 - Play")
-	print("4 - Activate")
-	flag = 0
-	while flag == 0:
-		p1choice = input("\n")
-		if p1choice == "0":
-			cardinfo("p1hand",thedeck)
-		elif p1choice == "1":
-			print("Player 1 field:"
-			cardinfo("p1field",thedeck)
-			print("Player 2 field:"
-			cardinfo("p2field",thedeck)
-			print("Available age piles:")
-			cardinfo("deck",thedeck)
-		elif p1choice == "2":
-			
-
+## PLAY
+# Function to play a card
+# Input:
+#  who (str) - 'p1', 'p2'
+#   p1 - Player 1
+#   p2 - Player 2
+#  card (str) - name of card to play
+#  thedeck (arr) - the multi-dimensional array of all deck info
+# Output:
+#  nothing (null)
+def play(who,card,thedeck):
+	if who == "p1":
+	
 	# Get the length of the Age 1 array:
 	a1len = len(thedeck.a1)
 	# Grab the locations of Player 1's cards:
@@ -459,6 +522,39 @@ def p1firstturn(thedeck):
 		elif p1choice == "2":
 			return p1handloc[1]
 
+## P1FIRSTTURN
+# Function for Player 1 to take their first turn
+# Input:
+#  thedeck (arr) - the multi-dimensional array of all deck info
+# Output:
+#  nothing (null)
+def p1firstturn(thedeck):
+	# Ask for choice:
+	print("Player 1: Choose an action, or check game info: ")
+	print("0 - Hand info")
+	print("1 - Field info")
+	print("2 - Draw")
+	print("3 - Play")
+	print("4 - Activate")
+	flag = 0
+	while flag == 0:
+		p1choice = input("\n")
+		if p1choice == "0":
+			cardinfo("p1hand",thedeck)
+		elif p1choice == "1":
+			print("Player 1 field:"
+			cardinfo("p1field",thedeck)
+			print("Player 2 field:"
+			cardinfo("p2field",thedeck)
+			print("Available age piles:")
+			cardinfo("deck",thedeck)
+		elif p1choice == "2":
+			draw("p1",thedeck)
+			flag = 1
+		elif p1choice == "3":
+			play("p1",thedeck)
+			flag = 1
+
 ############################################################################
 ############################################################################
 
@@ -469,7 +565,7 @@ print(  "    ** Innovation **")
 print(  "    ****************\n")
 print(  "    Code Developed By")
 print(  "       Alex Spacek")
-print(  "     5/8/19-9/15/20\n")
+print(  "     5/8/19-5/29/25\n")
 
 ## DEFINE CLASSES
 
@@ -852,7 +948,6 @@ elif starter == 2:
 	print("\nPlayer 2 has the lowest card alphabetically and goes first")
 
 # If Player 1 goes first, they get 1 action:
-
 
 print(getcards("p1field",Deck))
 print(getcards("p2field",Deck))
