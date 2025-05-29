@@ -486,7 +486,7 @@ def p2initial(thedeck):
 #  nothing (null)
 def draw(who,thedeck):
 	if who == "p1":
-		
+		print("blah")
 
 ## PLAY
 # Function to play a card
@@ -500,27 +500,26 @@ def draw(who,thedeck):
 #  nothing (null)
 def play(who,card,thedeck):
 	if who == "p1":
-	
-	# Get the length of the Age 1 array:
-	a1len = len(thedeck.a1)
-	# Grab the locations of Player 1's cards:
-	p1handloc = []
-	for i in range(a1len):
-		if thedeck.a1[i].location == "p1hand":
-			p1handloc = p1handloc+[i]
-	# Ask for choice:
-	print("Player 1 starting cards:")
-	print("1 - "+thedeck.a1[p1handloc[0]].name)
-	print("2 - "+thedeck.a1[p1handloc[1]].name)
-	flag = 0
-	while flag == 0:
-		p1choice = input("\nChoose a card to play first, or 0 for card info: ")
-		if p1choice == "0":
-			cardinfo("p1hand",thedeck)
-		elif p1choice == "1":
-			return p1handloc[0]
-		elif p1choice == "2":
-			return p1handloc[1]
+		# Get the length of the Age 1 array:
+		a1len = len(thedeck.a1)
+		# Grab the locations of Player 1's cards:
+		p1handloc = []
+		for i in range(a1len):
+			if thedeck.a1[i].location == "p1hand":
+				p1handloc = p1handloc+[i]
+		# Ask for choice:
+		print("Player 1 starting cards:")
+		print("1 - "+thedeck.a1[p1handloc[0]].name)
+		print("2 - "+thedeck.a1[p1handloc[1]].name)
+		flag = 0
+		while flag == 0:
+			p1choice = input("\nChoose a card to play first, or 0 for card info: ")
+			if p1choice == "0":
+				cardinfo("p1hand",thedeck)
+			elif p1choice == "1":
+				return p1handloc[0]
+			elif p1choice == "2":
+				return p1handloc[1]
 
 ## P1FIRSTTURN
 # Function for Player 1 to take their first turn
@@ -542,9 +541,9 @@ def p1firstturn(thedeck):
 		if p1choice == "0":
 			cardinfo("p1hand",thedeck)
 		elif p1choice == "1":
-			print("Player 1 field:"
+			print("Player 1 field:")
 			cardinfo("p1field",thedeck)
-			print("Player 2 field:"
+			print("Player 2 field:")
 			cardinfo("p2field",thedeck)
 			print("Available age piles:")
 			cardinfo("deck",thedeck)
