@@ -1,7 +1,8 @@
 ########################################################
 #### Innovation.py                                  ####
 #### Program to play the game Innovation in Python. ####
-#### Last edited 5/29/25 by Alex Spacek             ####
+#### Started 05/08/19 by Alex Spacek                ####
+#### Last edited 02/22/26 by Alex Spacek            ####
 ########################################################
 
 #############
@@ -37,25 +38,25 @@ from random import shuffle
 # Age 2 - Metalworking2X
 # Age 2 - Oars2
 # Age 2 - Oars2X
-# Age 2 - Archery3
-# Age 2 - Archery3X
-# Age 2 - Metalworking3
-# Age 2 - Metalworking3X
-# Age 2 - Oars3
-# Age 2 - Oars3X
-# Age 2 - Archery4
-# Age 2 - Archery4X
-# Age 2 - Metalworking4
-# Age 2 - Metalworking4X
-# Age 2 - Oars4
-# Age 2 - Oars4X
+# Age 3 - Archery3
+# Age 3 - Archery3X
+# Age 3 - Metalworking3
+# Age 3 - Metalworking3X
+# Age 3 - Oars3
+# Age 3 - Oars3X
+# Age 4 - Archery4
+# Age 4 - Archery4X
+# Age 4 - Metalworking4
+# Age 4 - Metalworking4X
+# Age 4 - Oars4
+# Age 4 - Oars4X
 
 ## The overall multi-dimensional array is thedeck
 ## The cards are located at:
 # thedeck.a1[0-8].name = ['Archery','ArcheryX','ArcheryXX',...,'OarsX','OarsXX']
-# thedeck.a2[0-6].name = ['Archery2','Archery2X','Metalworking2',...,'Oars2','Oars2X']
-# thedeck.a3[0-6].name = ['Archery3','Archery3X','Metalworking3',...,'Oars3','Oars3X']
-# thedeck.a4[0-6].name = ['Archery4','Archery4X','Metalworking4',...,'Oars4','Oars4X']
+# thedeck.a2[0-5].name = ['Archery2','Archery2X','Metalworking2',...,'Oars2','Oars2X']
+# thedeck.a3[0-5].name = ['Archery3','Archery3X','Metalworking3',...,'Oars3','Oars3X']
+# thedeck.a4[0-5].name = ['Archery4','Archery4X','Metalworking4',...,'Oars4','Oars4X']
 
 ###############
 ## FUNCTIONS ##
@@ -71,6 +72,7 @@ from random import shuffle
 # Output:
 #   nothing (null)
 def activate(thedeck,who):
+	print("blah")
 
 ## CARDINFO
 # Function to show card info
@@ -303,7 +305,10 @@ def cardinfo(thedeck,what):
 #   nothing (null)
 def draw(thedeck,who):
 	if who == "p1":
-		print("blah")
+		# Check the highest age in Player 1 field
+		lengtharr = lengths(thedeck,0)
+		maxage = 1
+#		if lengtharr[
 
 ## GETCARDS
 # Function to quickly grab specific cards (a player's hand, the deck, the dominations, etc.)
@@ -450,10 +455,138 @@ def goesfirst(thedeck,p1choice,p2choice):
 # Input:
 #   thedeck (arr) - the multi-dimensional array of all deck info
 # Output:
-#   L
-def lengths(thedeck):
+#   lengtharr (arr) - [tota1len,tota2len,tota3len,tota4len,totdecklen,decklen,dominationlen,p1handlen,p1fieldlen,redp1fieldlen,
+#                      p2handlen,p2fieldlen,redp2fieldlen,a1decklen,a2decklen,a3decklen,a4decklen]
+#     lengtharr[0] = tota1len
+#     lengtharr[1] = tota2len
+#     lengtharr[2] = tota3len
+#     lengtharr[3] = tota4len
+#     lengtharr[4] = totdecklen
+#     lengtharr[5] = decklen
+#     lengtharr[6] = dominationlen
+#     lengtharr[7] = p1handlen
+#     lengtharr[8] = p1fieldlen
+#     lengtharr[9] = redp1fieldlen
+#     lengtharr[10] = p2handlen
+#     lengtharr[11] = p2fieldlen
+#     lengtharr[12] = redp2fieldlen
+#     lengtharr[13] = a1decklen
+#     lengtharr[14] = a2decklen
+#     lengtharr[15] = a3decklen
+#     lengtharr[16] = a4decklen
+def lengths(thedeck,printall):
 	# Get all array lengths
-	
+	tota1len = len(thedeck.a1)
+	tota2len = len(thedeck.a2)
+	tota3len = len(thedeck.a3)
+	tota4len = len(thedeck.a4)
+	totdecklen = tota1len+tota2len+tota3len+tota4len
+	if printall == 1:
+		print("\ntota1len "+str(tota1len))
+		print("tota2len "+str(tota2len))
+		print("tota3len "+str(tota3len))
+		print("tota4len "+str(tota4len))
+		print("totdecklen "+str(totdecklen))
+	decklen = 0
+	dominationlen = 0
+	p1handlen = 0
+	p1fieldlen = 0
+	redp1fieldlen = 0
+	p2handlen = 0
+	p2fieldlen = 0
+	redp2fieldlen = 0
+	a1decklen = 0
+	for i in range(tota1len):
+		if thedeck.a1[i].location == "deck":
+			decklen = decklen+1
+			a1decklen = a1decklen+1
+		elif thedeck.a1[i].location == "domination":
+			dominationlen = dominationlen+1
+		elif thedeck.a1[i].location == "p1hand":
+			p1handlen = p1handlen+1
+		elif thedeck.a1[i].location == "p1field":
+			p1fieldlen = p1fieldlen+1
+			if thedeck.a1[i].color == "red":
+				redp1fieldlen = redp1fieldlen+1
+		elif thedeck.a1[i].location == "p2hand":
+			p2handlen = p2handlen+1
+		elif thedeck.a1[i].location == "p2field":
+			p2fieldlen = p2fieldlen+1
+			if thedeck.a1[i].color == "red":
+				redp2fieldlen = redp2fieldlen+1
+	a2decklen = 0
+	for i in range(tota2len):
+		if thedeck.a2[i].location == "deck":
+			decklen = decklen+1
+			a2decklen = a2decklen+1
+		elif thedeck.a2[i].location == "domination":
+			dominationlen = dominationlen+1
+		elif thedeck.a2[i].location == "p1hand":
+			p1handlen = p1handlen+1
+		elif thedeck.a2[i].location == "p1field":
+			p1fieldlen = p1fieldlen+1
+			if thedeck.a1[i].color == "red":
+				redp1fieldlen = redp1fieldlen+1
+		elif thedeck.a2[i].location == "p2hand":
+			p2handlen = p2handlen+1
+		elif thedeck.a2[i].location == "p2field":
+			p2fieldlen = p2fieldlen+1
+			if thedeck.a1[i].color == "red":
+				redp2fieldlen = redp2fieldlen+1
+	a3decklen = 0
+	for i in range(tota3len):
+		if thedeck.a3[i].location == "deck":
+			decklen = decklen+1
+			a3decklen = a3decklen+1
+		elif thedeck.a3[i].location == "domination":
+			dominationlen = dominationlen+1
+		elif thedeck.a3[i].location == "p1hand":
+			p1handlen = p1handlen+1
+		elif thedeck.a3[i].location == "p1field":
+			p1fieldlen = p1fieldlen+1
+			if thedeck.a1[i].color == "red":
+				redp1fieldlen = redp1fieldlen+1
+		elif thedeck.a3[i].location == "p2hand":
+			p2handlen = p2handlen+1
+		elif thedeck.a3[i].location == "p2field":
+			p2fieldlen = p2fieldlen+1
+			if thedeck.a1[i].color == "red":
+				redp2fieldlen = redp2fieldlen+1
+	a4decklen = 0
+	for i in range(tota4len):
+		if thedeck.a4[i].location == "deck":
+			decklen = decklen+1
+			a4decklen = a4decklen+1
+		elif thedeck.a4[i].location == "domination":
+			dominationlen = dominationlen+1
+		elif thedeck.a4[i].location == "p1hand":
+			p1handlen = p1handlen+1
+		elif thedeck.a4[i].location == "p1field":
+			p1fieldlen = p1fieldlen+1
+			if thedeck.a1[i].color == "red":
+				redp1fieldlen = redp1fieldlen+1
+		elif thedeck.a4[i].location == "p2hand":
+			p2handlen = p2handlen+1
+		elif thedeck.a4[i].location == "p2field":
+			p2fieldlen = p2fieldlen+1
+			if thedeck.a1[i].color == "red":
+				redp2fieldlen = redp2fieldlen+1
+	if printall == 1:
+		print("decklen "+str(decklen))
+		print("dominationlen "+str(dominationlen))
+		print("p1handlen "+str(p1handlen))
+		print("p1fieldlen "+str(p1fieldlen))
+		print("redp1fieldlen "+str(redp1fieldlen))
+		print("p2handlen "+str(p2handlen))
+		print("p2fieldlen "+str(p2fieldlen))
+		print("redp2fieldlen "+str(redp2fieldlen))
+		print("a1decklen "+str(a1decklen))
+		print("a2decklen "+str(a2decklen))
+		print("a3decklen "+str(a3decklen))
+		print("a4decklen "+str(a4decklen)+"\n")
+	lengtharr = [tota1len,tota2len,tota3len,tota4len,totdecklen,decklen,dominationlen,p1handlen,p1fieldlen,redp1fieldlen,
+				 p2handlen,p2fieldlen,redp2fieldlen,a1decklen,a2decklen,a3decklen,a4decklen]
+	return lengtharr
 
 ## P1INITIAL
 # Function for Player 1 to pick initial card to play
@@ -470,11 +603,11 @@ def p1initial(thedeck):
 		if thedeck.a1[i].location == "p1hand":
 			p1handloc = p1handloc+[i]
 	# Ask for choice:
-	print("Player 1 starting cards:")
-	print("1 - "+thedeck.a1[p1handloc[0]].name)
-	print("2 - "+thedeck.a1[p1handloc[1]].name)
 	flag = 0
 	while flag == 0:
+		print("\nPlayer 1 starting cards:")
+		print("1 - "+thedeck.a1[p1handloc[0]].name)
+		print("2 - "+thedeck.a1[p1handloc[1]].name)
 		p1choice = input("\nChoose a card to play first, or 0 for card info: ")
 		if p1choice == "0":
 			cardinfo(thedeck,"p1hand")
@@ -645,11 +778,11 @@ def play(thedeck,who):
 
 print("\n    ****************")
 print(  "    ** Innovation **")
-print(  "    ****************\n")
+print(  "    ****************")
 
-print(  "    Code Developed By")
+print("\n    Code Developed By")
 print(  "       Alex Spacek")
-print(  "     5/8/19-5/29/25\n")
+print(  "     5/8/19-2/22/26")
 
 ## DEFINE CLASSES
 
@@ -658,6 +791,7 @@ print(  "     5/8/19-5/29/25\n")
 #   bulb
 #   castle
 #   crown
+#   none
 # Initiate by:
 #   test = Symbols("crown","castle","none","bulb")
 # Then you have:
@@ -697,6 +831,30 @@ class Effects:
 ## CARD
 # Possible name:
 #   Any card name
+# Possible age:
+#   1, 2, 3, 4
+# Possible color:
+#   red
+# Possible location:
+#   deck
+#   domination
+#   p1field
+#   p1hand
+#   p2field
+#   p2hand
+# Possible place:
+#   -1         - unused
+#    1         - on top of its pile
+#    2 or more - that place in its pile, from the top
+# Possible splay:
+#   left
+#   none
+#   right
+#   up
+# Possible syms:
+#   See SYMBOLS above
+# Possible effect:
+#   See EFFECTS above
 # Initiate by:
 #   test = Card("Archery",1,"red","deck",-1,"none",
 #               "castle","bulb","none","castle",
@@ -732,7 +890,7 @@ class Card:
 		self.effect1 = Effects(type1,cost1,text1)
 		self.effect2 = Effects(type2,cost2,text2)
 
-# Domain:
+## DOMAIN
 # Initiate by:
 #   test = Domain("World",
 #	              "Claim this special achievement immediately if you have twelve or more [clocks] on your board.")
@@ -745,7 +903,7 @@ class Domain:
 		self.name = name
 		self.text = text
 
-# Ages:
+## AGES
 # Initiate by:
 #   test = Ages((card1,card2,card3),
 #               (card4,card5,card6),
@@ -966,8 +1124,6 @@ Universe = Domain("Universe",
 
 ## SHUFFLE DECKS AND BUILD THE DOMINATIONS
 
-# NOTE: place = where in its pile the card is, with 1 = on top
-
 # Grab indexes for all Age 1 cards:
 arr = [i for i in range(len(Deck.a1))]
 # Arrange them randomly:
@@ -1068,13 +1224,59 @@ print(  "Player 2 has chosen to start with - "+Deck.a1[p2choice].name)
 # Lowest card alphabetically goes first
 starter = goesfirst(Deck,p1choice,p2choice)
 if starter == 1:
-	print("\nPlayer 1 has the lowest card alphabetically and goes first")
+	print("\nPlayer 1 has the lowest card alphabetically and goes first.")
 	turn = 1
 elif starter == 2:
-	print("\nPlayer 2 has the lowest card alphabetically and goes first")
+	print("\nPlayer 2 has the lowest card alphabetically and goes first.")
 	turn = 2
 # Whoever goes first gets 1 action
 print("\nFirst turn gets 1 action. Then every turn gets 2 actions.")
+
+## Program Situation Check
+print("Checking the state of the program.")
+lcheck = lengths(Deck,0)
+if lcheck[0] != 9:
+	print("tota1len should be 9 (x3 each of Archery, Metalworking, and Oars)")
+	print(lcheck[0])
+elif lcheck[1] != 6:
+	print("tota2len should be 6 (x2 each of Archery, Metalworking, and Oars)")
+	print(lcheck[1])
+elif lcheck[2] != 6:
+	print("tota3len should be 6 (x2 each of Archery, Metalworking, and Oars)")
+	print(lcheck[2])
+elif lcheck[3] != 6:
+	print("tota4len should be 6 (x2 each of Archery, Metalworking, and Oars)")
+	print(lcheck[3])
+elif lcheck[4] != 27:
+	print("totdecklen should be 27 (9+6+6+6)")
+	print(lcheck[4])
+elif lcheck[5] != 19:
+	print("decklen should be 19 (27-4 dominations-2 p1 hand-2 p2 hand)")
+	print(lcheck[5])
+elif lcheck[6] != 4:
+	print("dominationlen should be 4 (using ages 1-4)"
+	print(lcheck[6])
+elif lcheck[7] != 1:
+	print("p1handlen should be 1 (started with 2 cards, played 1)"
+	print(lcheck[7])
+elif lcheck[8] != 1:
+	print("redp1fieldlen should be 1 (played 1 card and they're all red)"
+	print(lcheck[8])
+
+
+
+p1fieldlen 1
+redp1fieldlen 1
+p2handlen 1
+p2fieldlen 1
+redp2fieldlen 1
+a1decklen 4
+a2decklen 5
+a3decklen 5
+a4decklen 5
+
+lengtharr (arr) - [tota1len,tota2len,tota3len,tota4len,totdecklen,decklen,dominationlen,p1handlen,p1fieldlen,redp1fieldlen,
+#                      p2handlen,p2fieldlen,redp2fieldlen,a1decklen,a2decklen,a3decklen,a4decklen]
 
 # Do first turn with 1 action, then the other player takes a normal turn
 if turn == 1:
