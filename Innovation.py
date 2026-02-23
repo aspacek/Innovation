@@ -10,7 +10,9 @@
 #############
 
 ## RANDOM
-# Used to "shuffle" the cards
+# Used to make random choices
+import random
+# Also used to "shuffle" the cards
 # > random.shuffle(array)
 # Which we will use as
 # > shuffle(array)
@@ -53,10 +55,10 @@ from random import shuffle
 
 ## The overall multi-dimensional array is thedeck
 ## The cards are located at:
-# thedeck.a1[0-8].name = ['Archery','ArcheryX','ArcheryXX',...,'OarsX','OarsXX']
-# thedeck.a2[0-5].name = ['Archery2','Archery2X','Metalworking2',...,'Oars2','Oars2X']
-# thedeck.a3[0-5].name = ['Archery3','Archery3X','Metalworking3',...,'Oars3','Oars3X']
-# thedeck.a4[0-5].name = ['Archery4','Archery4X','Metalworking4',...,'Oars4','Oars4X']
+# thedeck.a1[0-8].name = ["Archery","ArcheryX","ArcheryXX",...,"OarsX","OarsXX"]
+# thedeck.a2[0-5].name = ["Archery2","Archery2X","Metalworking2",...,"Oars2","Oars2X"]
+# thedeck.a3[0-5].name = ["Archery3","Archery3X","Metalworking3",...,"Oars3","Oars3X"]
+# thedeck.a4[0-5].name = ["Archery4","Archery4X","Metalworking4",...,"Oars4","Oars4X"]
 
 ###############
 ## FUNCTIONS ##
@@ -66,19 +68,19 @@ from random import shuffle
 # Function to play a card
 # Input:
 #   thedeck (arr) - the multi-dimensional array of all deck info
-#   who (str) - 'p1', 'p2'
+#   who (str) - "p1", "p2"
 #     p1 - Player 1
 #     p2 - Player 2
 # Output:
 #   nothing (null)
 def activate(thedeck,who):
-	print("blah")
+	print("\nActivate!")
 
 ## CARDINFO
 # Function to show card info
 # Input:
 #   thedeck (arr) - the multi-dimensional array of all deck info
-#   what (str) - 'p1hand', 'p1field', 'p2field', 'deck'
+#   what (str) - "p1hand", "p1field", "p2field", "deck"
 #     p1hand (str) - Player 1 (p1) hand
 #     p1field (str) - Player 1 (p1) field (cards in play)
 #     p2field (str) - Player 2 (p2) field (cards in play)
@@ -298,23 +300,47 @@ def cardinfo(thedeck,what):
 # Function to draw a card
 # Input:
 #   thedeck (arr) - the multi-dimensional array of all deck info
-#   who (str) - 'p1', 'p2'
+#   who (str) - "p1", "p2"
 #     p1 - Player 1
 #     p2 - Player 2
 # Output:
 #   nothing (null)
 def draw(thedeck,who):
+	# Check the highest age in both fields:
+	tota1len = len(thedeck.a1)
+	tota2len = len(thedeck.a2)
+	tota3len = len(thedeck.a3)
+	tota4len = len(thedeck.a4)
+	p1max = 1
+	p2max = 1
+	for i in range(tota4len):
+		if thedeck.a4[i].place == 1:
+			if thedeck.a4[i].location == "p1field":
+				p1max = 4
+			if thedeck.a4[i].location == "p2field":
+				p2max = 4
+	for i in range(tota3len):
+		if thedeck.a3[i].place == 1:
+			if thedeck.a3[i].location == "p1field" and p1max < 3:
+				p1max = 3
+			if thedeck.a3[i].location == "p2field" and p2max < 3:
+				p2max = 3
+	for i in range(tota2len):
+		if thedeck.a2[i].place == 1:
+			if thedeck.a2[i].location == "p1field" and p1max < 2:
+				p1max = 2
+			if thedeck.a2[i].location == "p2field" and p2max < 2:
+				p2max = 2
 	if who == "p1":
-		# Check the highest age in Player 1 field
-		lengtharr = lengths(thedeck,0)
-		maxage = 1
-#		if lengtharr[
+		print("\nPlayer 1 gets to draw from age "+str(p1max))
+	elif who == "p2":
+		print("\nPlayer 2 gets to draw from age "+str(p2max))
 
 ## GETCARDS
 # Function to quickly grab specific cards (a player's hand, the deck, the dominations, etc.)
 # Input:
 #   thedeck (arr) - the multi-dimensional array of all deck info
-#   what (str) - 'p1hand', 'p2hand', 'dominations', 'deck', 'p1field', 'p2field'
+#   what (str) - "p1hand", "p2hand", "dominations", "deck", "p1field", "p2field"
 #     p1hand (str) - 
 #     p2hand (str) - 
 #     dominations (str) - 
@@ -624,33 +650,35 @@ def p1initial(thedeck):
 # Output:
 #   nothing (null)
 def p1turn(thedeck,actions):
-	# Ask for choice:
-	print("Player 1: Choose an action, or check game info: ")
-	print("0 - Hand info")
-	print("1 - Field info")
-	print("2 - Draw")
-	print("3 - Play")
-	print("4 - Activate")
 	while actions > 0:
+		# Ask for choice:
+		print("\nPlayer 1: Choose an action, or check game info: ")
+		print("0 - Hand info")
+		print("1 - Field info")
+		print("2 - Draw")
+		print("3 - Play")
+		print("4 - Activate")
 		p1choice = input("\n")
 		if p1choice == "0":
-			cardinfo("p1hand",thedeck)
+			cardinfo(thedeck,"p1hand")
 		elif p1choice == "1":
-			print("Player 1 field:")
-			cardinfo("p1field",thedeck)
-			print("Player 2 field:")
-			cardinfo("p2field",thedeck)
-			print("Available age piles:")
-			cardinfo("deck",thedeck)
+			print("\nPlayer 1 field:")
+			cardinfo(thedeck,"p1field")
+			print("\nPlayer 2 field:")
+			cardinfo(thedeck,"p2field")
+			print("\nAvailable age piles:")
+			cardinfo(thedeck,"deck")
 		elif p1choice == "2":
-			draw("p1",thedeck)
+			draw(thedeck,"p1")
 			actions = actions-1
 		elif p1choice == "3":
-			play("p1",thedeck)
+			play(thedeck,"p1")
 			actions = actions-1
 		elif p1choice == "4":
-			activate("p1",thedeck)
+			activate(thedeck,"p1")
 			actions = actions-1
+		else:
+			print("\nNot a valid choice.")
 
 ## P2INITIAL
 # Function for Player 2 to pick initial card to play
@@ -714,35 +742,105 @@ def p2initial(thedeck):
 #   nothing (null)
 def p2turn(thedeck,actions):
 	# Ask for choice:
-	print("Player 2: Choose an action, or check game info: ")
-	print("0 - Hand info")
-	print("1 - Field info")
-	print("2 - Draw")
-	print("3 - Play")
-	print("4 - Activate")
+	#print("\nPlayer 2: Choose an action, or check game info: ")
+	#print("0 - Hand info")
+	#print("1 - Field info")
+	#print("2 - Draw")
+	#print("3 - Play")
+	#print("4 - Activate")
 	while actions > 0:
-		p1choice = input("\n")
-		if p1choice == "0":
-			cardinfo("p1hand",thedeck)
-		elif p1choice == "1":
-			print("Player 1 field:")
-			cardinfo("p1field",thedeck)
-			print("Player 2 field:")
-			cardinfo("p2field",thedeck)
-			print("Available age piles:")
-			cardinfo("deck",thedeck)
-		elif p1choice == "2":
-			draw("p2",thedeck)
+		# Possibile options:
+		# 1 = only Draw
+		# 2 = only Play
+		# 3 = only Activate
+		# 4 = Draw + Play
+		# 5 = Draw + Activate
+		# 6 = Play + Activate
+		# 7 = Draw + Play + Activate
+		# Considerations of the options:
+		# First case = Draw
+		# - Always an option
+		yesdraw = 1
+		# Second case = Play
+		# - Need a card in hand
+		p2hand = getcards(thedeck,"p2hand")
+		yesplay = 0
+		if len(p2hand) > 0:
+			yesplay = 1
+		# Third case = Activate
+		# - Need a card in the field
+		p2field = getcards(thedeck,"p2field")
+		yesactivate = 0
+		if len(p2field) > 0:
+			yesactivate = 1
+		# Figure out specific option scenario:
+		if yesdraw == 1:
+			p2option = 1
+			if yesplay == 1:
+				p2option = 4
+				if yesactivate == 1:
+					p2option = 7
+			elif yesplay == 0:
+				if yesactivate == 1:
+					p2option = 5
+		elif yesplay == 1:
+			p2option = 2
+			if yesactivate == 1:
+				p2option = 6
+		elif yesactivate == 1:
+			p2option = 3
+		# Pick a random option:
+		if p2option == 1:
+			p2choice = "2"
+		elif p2option == 2:
+			p2choice = "3"
+		elif p2option == 3:
+			p2choice = "4"
+		elif p2option == 4:
+			randarray = [0,1]
+			randpick = random.choice(randarray)
+			p2choice = "3"
+			if randpick == 0:
+				p2choice = "2"
+		elif p2option == 5:
+			randarray = [0,1]
+			randpick = random.choice(randarray)
+			p2choice = "4"
+			if randpick == 0:
+				p2choice = "2"
+		elif p2option == 6:
+			randarray = [0,1]
+			randpick = random.choice(randarray)
+			p2choice = "4"
+			if randpick == 0:
+				p2choice = "3"
+		elif p2option == 7:
+			randarray = [0,1,2]
+			randpick = random.choice(randarray)
+			p2choice = "4"
+			if randpick == 0:
+				p2choice = "2"
+			elif randpick == 1:
+				p2choice = "3"
+		# Make the choice:
+		if p2choice == "2":
+			print("\nPlayer 2 has chosen to Draw.")
+			draw(thedeck,"p2")
 			actions = actions-1
-		elif p1choice == "3":
-			play("p2",thedeck)
+		elif p2choice == "3":
+			print("\nPlayer 2 has chosen to Play.")
+			play(thedeck,"p2")
+			actions = actions-1
+		elif p2choice == "4":
+			print("\nPlayer 2 has chosen to Activate.")
+			activate(thedeck,"p2")
 			actions = actions-1
 
 ## PLAY
 # Function to play a card
 # Input:
 #   thedeck (arr) - the multi-dimensional array of all deck info
-#   who (str) - 'p1', 'p2'
+#   who (str) - "p1", "p2"
 #     p1 - Player 1
 #     p2 - Player 2
 # Output:
@@ -1233,50 +1331,61 @@ elif starter == 2:
 print("\nFirst turn gets 1 action. Then every turn gets 2 actions.")
 
 ## Program Situation Check
-print("Checking the state of the program.")
-lcheck = lengths(Deck,0)
-if lcheck[0] != 9:
+print("\nChecking the state of the program.")
+lengtharr = lengths(Deck,0)
+if lengtharr[0] != 9:
 	print("tota1len should be 9 (x3 each of Archery, Metalworking, and Oars)")
-	print(lcheck[0])
-elif lcheck[1] != 6:
+	print(lengtharr[0])
+elif lengtharr[1] != 6:
 	print("tota2len should be 6 (x2 each of Archery, Metalworking, and Oars)")
-	print(lcheck[1])
-elif lcheck[2] != 6:
+	print(lengtharr[1])
+elif lengtharr[2] != 6:
 	print("tota3len should be 6 (x2 each of Archery, Metalworking, and Oars)")
-	print(lcheck[2])
-elif lcheck[3] != 6:
+	print(lengtharr[2])
+elif lengtharr[3] != 6:
 	print("tota4len should be 6 (x2 each of Archery, Metalworking, and Oars)")
-	print(lcheck[3])
-elif lcheck[4] != 27:
+	print(lengtharr[3])
+elif lengtharr[4] != 27:
 	print("totdecklen should be 27 (9+6+6+6)")
-	print(lcheck[4])
-elif lcheck[5] != 19:
+	print(lengtharr[4])
+elif lengtharr[5] != 19:
 	print("decklen should be 19 (27-4 dominations-2 p1 hand-2 p2 hand)")
-	print(lcheck[5])
-elif lcheck[6] != 4:
-	print("dominationlen should be 4 (using ages 1-4)"
-	print(lcheck[6])
-elif lcheck[7] != 1:
-	print("p1handlen should be 1 (started with 2 cards, played 1)"
-	print(lcheck[7])
-elif lcheck[8] != 1:
-	print("redp1fieldlen should be 1 (played 1 card and they're all red)"
-	print(lcheck[8])
-
-
-
-p1fieldlen 1
-redp1fieldlen 1
-p2handlen 1
-p2fieldlen 1
-redp2fieldlen 1
-a1decklen 4
-a2decklen 5
-a3decklen 5
-a4decklen 5
-
-lengtharr (arr) - [tota1len,tota2len,tota3len,tota4len,totdecklen,decklen,dominationlen,p1handlen,p1fieldlen,redp1fieldlen,
-#                      p2handlen,p2fieldlen,redp2fieldlen,a1decklen,a2decklen,a3decklen,a4decklen]
+	print(lengtharr[5])
+elif lengtharr[6] != 4:
+	print("dominationlen should be 4 (using ages 1-4)")
+	print(lengtharr[6])
+elif lengtharr[7] != 1:
+	print("p1handlen should be 1 (started with 2 cards, played 1)")
+	print(lengtharr[7])
+elif lengtharr[8] != 1:
+	print("p1fieldlen should be 1 (played 1 card)")
+	print(lengtharr[8])
+elif lengtharr[9] != 1:
+	print("redp1fieldlen should be 1 (played 1 card and they're all red)")
+	print(lengtharr[9])
+elif lengtharr[10] != 1:
+	print("p2handlen should be 1 (started with 2 cards, played 1)")
+	print(lengtharr[10])
+elif lengtharr[11] != 1:
+	print("p2fieldlen should be 1 (played 1 card)")
+	print(lengtharr[11])
+elif lengtharr[12] != 1:
+	print("redp2fieldlen should be 1 (played 1 card and they're all red)")
+	print(lengtharr[12])
+elif lengtharr[13] != 4:
+	print("a1decklen should be 4 (9-1 domination-2 p1 deal-2 p2 deal)")
+	print(lengtharr[13])
+elif lengtharr[14] != 5:
+	print("a2decklen should be 5 (6-1 domination)")
+	print(lengtharr[14])
+elif lengtharr[15] != 5:
+	print("a3decklen should be 5 (6-1 domination)")
+	print(lengtharr[15])
+elif lengtharr[16] != 5:
+	print("a4decklen should be 5 (6-1 domination)")
+	print(lengtharr[16])
+else:
+	print("All good!")
 
 # Do first turn with 1 action, then the other player takes a normal turn
 if turn == 1:
