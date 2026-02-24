@@ -2,7 +2,7 @@
 #### Innovation.py                                  ####
 #### Program to play the game Innovation in Python. ####
 #### Started 05/08/19 by Alex Spacek                ####
-#### Last edited 02/22/26 by Alex Spacek            ####
+#### Last edited 02/23/26 by Alex Spacek            ####
 ########################################################
 
 #############
@@ -306,11 +306,18 @@ def cardinfo(thedeck,what):
 # Output:
 #   nothing (null)
 def draw(thedeck,who):
+	# End of game flag:
+	gameover = 0
 	# Check the highest age in both fields:
-	tota1len = len(thedeck.a1)
-	tota2len = len(thedeck.a2)
-	tota3len = len(thedeck.a3)
-	tota4len = len(thedeck.a4)
+	lengtharr = lengths(thedeck,0)
+	tota1len = lengtharr[0]
+	tota2len = lengtharr[1]
+	tota3len = lengtharr[2]
+	tota4len = lengtharr[3]
+	a1decklen = lengtharr[13]
+	a2decklen = lengtharr[14]
+	a3decklen = lengtharr[15]
+	a4decklen = lengtharr[16]
 	p1max = 1
 	p2max = 1
 	for i in range(tota4len):
@@ -332,9 +339,147 @@ def draw(thedeck,who):
 			if thedeck.a2[i].location == "p2field" and p2max < 2:
 				p2max = 2
 	if who == "p1":
-		print("\nPlayer 1 gets to draw from age "+str(p1max))
+		print("\nPlayer 1 gets to draw from Age "+str(p1max))
+		# Draw from p1max, if empty go to higher age piles
+		agetodraw = p1max
+		if p1max == 4 and a4decklen == 0:
+			gameover = 1
+			print("\nDRAWING FROM HIGHEST AGE PILE, WHICH IS EMPTY. GAME OVER!")
+		elif p1max == 3:
+			if a3decklen == 0:
+				agetodraw = 4
+				if a4decklen == 0:
+					gameover = 1
+					print("\nDRAWING FROM HIGHEST AGE PILE, WHICH IS EMPTY. GAME OVER!")
+		elif p1max == 2:
+			if a2decklen == 0:
+				agetodraw = 3
+				if a3decklen == 0:
+					agetodraw = 4
+					if a4decklen == 0:
+						gameover = 1
+						print("\nDRAWING FROM HIGHEST AGE PILE, WHICH IS EMPTY. GAME OVER!")
+		elif p1max == 1:
+			if a1decklen == 0:
+				agetodraw = 2
+				if a2decklen == 0:
+					agetodraw = 3
+					if a3decklen == 0:
+						agetodraw = 4
+						if a4decklen == 0:
+							gameover = 1
+							print("\nDRAWING FROM HIGHEST AGE PILE, WHICH IS EMPTY. GAME OVER!")
+		print("\nThe actual age Player 1 gets to draw from is Age "+str(agetodraw))
+		# Draw from agetodraw
+		if agetodraw == 1:
+			for i in range(len(Deck.a1)):
+				if Deck.a1[i].place == 1 and Deck.a1[i].location == "deck":
+					Deck.a1[i].location = "p1hand"
+					Deck.a1[i].place = -1
+					print("\nYou have drawn "+Deck.a1[i].name)
+			# Move the place of the other deck cards up one
+			for i in range(len(Deck.a1)):
+				if Deck.a1[i].location == "deck":
+					Deck.a1[i].place = Deck.a1[i].place-1
+		elif agetodraw == 2:
+			for i in range(len(Deck.a2)):
+				if Deck.a2[i].place == 1 and Deck.a2[i].location == "deck":
+					Deck.a2[i].location = "p1hand"
+					Deck.a2[i].place = -1
+					print("\nYou have drawn "+Deck.a2[i].name)
+			# Move the place of the other deck cards up one
+			for i in range(len(Deck.a2)):
+				if Deck.a2[i].location == "deck":
+							Deck.a2[i].place = Deck.a2[i].place-1
+		elif agetodraw == 3:
+			for i in range(len(Deck.a3)):
+				if Deck.a3[i].place == 1 and Deck.a3[i].location == "deck":
+					Deck.a3[i].location = "p1hand"
+					Deck.a3[i].place = -1
+					print("\nYou have drawn "+Deck.a3[i].name)
+			# Move the place of the other deck cards up one
+			for i in range(len(Deck.a3)):
+				if Deck.a3[i].location == "deck":
+					Deck.a3[i].place = Deck.a3[i].place-1
+		elif agetodraw == 4:
+			for i in range(len(Deck.a4)):
+				if Deck.a4[i].place == 1 and Deck.a4[i].location == "deck":
+					Deck.a4[i].location = "p1hand"
+					Deck.a4[i].place = -1
+					print("\nYou have drawn "+Deck.a4[i].name)
+			# Move the place of the other deck cards up one
+			for i in range(len(Deck.a4)):
+				if Deck.a4[i].location == "deck":
+					Deck.a4[i].place = Deck.a4[i].place-1
 	elif who == "p2":
-		print("\nPlayer 2 gets to draw from age "+str(p2max))
+		print("\nPlayer 2 gets to draw from Age "+str(p2max))
+		# Draw from p2max, if empty go to higher age piles
+		agetodraw = p2max
+		if p2max == 4 and a4decklen == 0:
+			gameover = 1
+			print("\nDRAWING FROM HIGHEST AGE PILE, WHICH IS EMPTY. GAME OVER!")
+		elif p2max == 3:
+			if a3decklen == 0:
+				agetodraw = 4
+				if a4decklen == 0:
+					gameover = 1
+					print("\nDRAWING FROM HIGHEST AGE PILE, WHICH IS EMPTY. GAME OVER!")
+		elif p2max == 2:
+			if a2decklen == 0:
+				agetodraw = 3
+				if a3decklen == 0:
+					agetodraw = 4
+					if a4decklen == 0:
+						gameover = 1
+						print("\nDRAWING FROM HIGHEST AGE PILE, WHICH IS EMPTY. GAME OVER!")
+		elif p2max == 1:
+			if a1decklen == 0:
+				agetodraw = 2
+				if a2decklen == 0:
+					agetodraw = 3
+					if a3decklen == 0:
+						agetodraw = 4
+						if a4decklen == 0:
+							gameover = 1
+							print("\nDRAWING FROM HIGHEST AGE PILE, WHICH IS EMPTY. GAME OVER!")
+		print("\nThe actual age Player 2 gets to draw from is Age "+str(agetodraw))
+		# Draw from agetodraw
+		if agetodraw == 1:
+			for i in range(len(Deck.a1)):
+				if Deck.a1[i].place == 1 and Deck.a1[i].location == "deck":
+					Deck.a1[i].location = "p2hand"
+					Deck.a1[i].place = -1
+			# Move the place of the other deck cards up one
+			for i in range(len(Deck.a1)):
+				if Deck.a1[i].location == "deck":
+					Deck.a1[i].place = Deck.a1[i].place-1
+		elif agetodraw == 2:
+			for i in range(len(Deck.a2)):
+				if Deck.a2[i].place == 1 and Deck.a2[i].location == "deck":
+					Deck.a2[i].location = "p2hand"
+					Deck.a2[i].place = -1
+			# Move the place of the other deck cards up one
+			for i in range(len(Deck.a2)):
+				if Deck.a2[i].location == "deck":
+					Deck.a2[i].place = Deck.a2[i].place-1
+		elif agetodraw == 3:
+			for i in range(len(Deck.a3)):
+				if Deck.a3[i].place == 1 and Deck.a3[i].location == "deck":
+					Deck.a3[i].location = "p2hand"
+					Deck.a3[i].place = -1
+			# Move the place of the other deck cards up one
+			for i in range(len(Deck.a3)):
+				if Deck.a3[i].location == "deck":
+					Deck.a3[i].place = Deck.a3[i].place-1
+		elif agetodraw == 4:
+			for i in range(len(Deck.a4)):
+				if Deck.a4[i].place == 1 and Deck.a4[i].location == "deck":
+					Deck.a4[i].location = "p2hand"
+					Deck.a4[i].place = -1
+			# Move the place of the other deck cards up one
+			for i in range(len(Deck.a4)):
+				if Deck.a4[i].location == "deck":
+					Deck.a4[i].place = Deck.a4[i].place-1
 
 ## GETCARDS
 # Function to quickly grab specific cards (a player's hand, the deck, the dominations, etc.)
@@ -351,10 +496,11 @@ def draw(thedeck,who):
 #   array (arr) - an array of the requested info (e.g. an array of the card names in Player 1's hand)
 def getcards(thedeck,what):
 	# Get then length of each Age array:
-	a1len = len(thedeck.a1)
-	a2len = len(thedeck.a2)
-	a3len = len(thedeck.a3)
-	a4len = len(thedeck.a4)
+	lengtharr = lengths(thedeck,0)
+	tota1len = lengtharr[0]
+	tota2len = lengtharr[1]
+	tota3len = lengtharr[2]
+	tota4len = lengtharr[3]
 	# Initialize the various subsets:
 	p1hand = []
 	p2hand = []
@@ -363,7 +509,7 @@ def getcards(thedeck,what):
 	inp1field = []
 	inp2field = []
 	# Loop through the whole deck:
-	for i in range(a1len):
+	for i in range(tota1len):
 		if thedeck.a1[i].location == "p1hand":
 			p1hand = p1hand+[thedeck.a1[i].name]
 		elif thedeck.a1[i].location == "p2hand":
@@ -376,7 +522,7 @@ def getcards(thedeck,what):
 			inp1field = inp1field+[thedeck.a1[i].name]
 		elif thedeck.a1[i].location == "p2field":
 			inp2field = inp2field+[thedeck.a1[i].name]
-	for i in range(a2len):
+	for i in range(tota2len):
 		if thedeck.a2[i].location == "p1hand":
 			p1hand = p1hand+[thedeck.a2[i].name]
 		elif thedeck.a2[i].location == "p2hand":
@@ -389,7 +535,7 @@ def getcards(thedeck,what):
 			inp1field = inp1field+[thedeck.a2[i].name]
 		elif thedeck.a2[i].location == "p2field":
 			inp2field = inp2field+[thedeck.a2[i].name]
-	for i in range(a3len):
+	for i in range(tota3len):
 		if thedeck.a3[i].location == "p1hand":
 			p1hand = p1hand+[thedeck.a3[i].name]
 		elif thedeck.a3[i].location == "p2hand":
@@ -402,7 +548,7 @@ def getcards(thedeck,what):
 			inp1field = inp1field+[thedeck.a3[i].name]
 		elif thedeck.a3[i].location == "p2field":
 			inp2field = inp2field+[thedeck.a3[i].name]
-	for i in range(a4len):
+	for i in range(tota4len):
 		if thedeck.a4[i].location == "p1hand":
 			p1hand = p1hand+[thedeck.a4[i].name]
 		elif thedeck.a4[i].location == "p2hand":
@@ -847,26 +993,122 @@ def p2turn(thedeck,actions):
 #   nothing (null)
 def play(thedeck,who):
 	if who == "p1":
-		# Get the length of the Age 1 array:
-		a1len = len(thedeck.a1)
+		# Get the length of the Age arrays:
+		lengtharr = lengths(thedeck,0)
+		tota1len = lengtharr[0]
+		tota2len = lengtharr[1]
+		tota3len = lengtharr[2]
+		tota4len = lengtharr[3]
 		# Grab the locations of Player 1's cards:
-		p1handloc = []
-		for i in range(a1len):
+		p1a1handloc = []
+		p1a2handloc = []
+		p1a3handloc = []
+		p1a4handloc = []
+		agearr = []
+		for i in range(tota1len):
 			if thedeck.a1[i].location == "p1hand":
-				p1handloc = p1handloc+[i]
+				p1a1handloc = p1a1handloc+[i]
+				agearr = agearr+[1]
+		for i in range(tota2len):
+			if thedeck.a2[i].location == "p1hand":
+				p1a2handloc = p1a2handloc+[i]
+				agearr = agearr+[2]
+		for i in range(tota3len):
+			if thedeck.a3[i].location == "p1hand":
+				p1a3handloc = p1a3handloc+[i]
+				agearr = agearr+[3]
+		for i in range(tota4len):
+			if thedeck.a4[i].location == "p1hand":
+				p1a4handloc = p1a4handloc+[i]
+				agearr = agearr+[4]
 		# Ask for choice:
-		print("Player 1 starting cards:")
-		print("1 - "+thedeck.a1[p1handloc[0]].name)
-		print("2 - "+thedeck.a1[p1handloc[1]].name)
 		flag = 0
 		while flag == 0:
-			p1choice = input("\nChoose a card to play first, or 0 for card info: ")
+			print("\nPlayer 1 hand:")
+			n = 1
+			print("Age 1")
+			for i in range(len(p1a1handloc)):
+				print(str(n)+" - "+thedeck.a1[p1a1handloc[i]].name)
+				n = n+1
+			print("Age 2")
+			for i in range(len(p1a2handloc)):
+				print(str(n)+" - "+thedeck.a2[p1a2handloc[i]].name)
+				n = n+1
+			print("Age 3")
+			for i in range(len(p1a3handloc)):
+				print(str(n)+" - "+thedeck.a3[p1a3handloc[i]].name)
+				n = n+1
+			print("Age 4")
+			for i in range(len(p1a4handloc)):
+				print(str(n)+" - "+thedeck.a4[p1a4handloc[i]].name)
+				n = n+1
+			p1choice = input("\nChoose a card to play, or enter 0 to check game info: ")
 			if p1choice == "0":
-				cardinfo("p1hand",thedeck)
-			elif p1choice == "1":
-				return p1handloc[0]
-			elif p1choice == "2":
-				return p1handloc[1]
+				print("\n0 - Hand info")
+				print("1 - Field info")
+				p1infochoice = input("\n")
+				if p1infochoice == "0":
+					cardinfo(thedeck,"p1hand")
+				elif p1infochoice == "1":
+					print("\nPlayer 1 field:")
+					cardinfo(thedeck,"p1field")
+					print("\nPlayer 2 field:")
+					cardinfo(thedeck,"p2field")
+					print("\nAvailable age piles:")
+					cardinfo(thedeck,"deck")
+			elif int(p1choice) < n:
+				flag = 1
+				a1count = 0
+				a2count = 0
+				a3count = 0
+				a4count = 0
+				for i in range(len(agearr)):
+					if agearr[i] == 1:
+						a1count = a1count + 1
+					elif agearr[i] == 2:
+						a2count = a2count + 1
+					elif agearr[i] == 3:
+						a3count = a3count + 1
+					elif agearr[i] == 4:
+						a4count = a4count + 1
+				if agearr[int(p1choice)-1] == 1:
+					print("\nYou have chosen to play "+thedeck.a1[p1a1handloc[int(p1choice)-1]].name)
+					# First move place of field pile cards up one to account for the new card being played on the pile:
+					for i in range(len(Deck.a1)):
+						if Deck.a1[i].location == "p1field" and Deck.a1[i].color == Deck.a1[p1a1handloc[int(p1choice)-1]].color:
+							Deck.a1[i].place = Deck.a1[i].place + 1
+					# Put the new card on the top of the corresponding pile:
+					Deck.a1[p1a1handloc[int(p1choice)-1]].location = "p1field"
+					Deck.a1[p1a1handloc[int(p1choice)-1]].place = 1
+				elif agearr[int(p1choice)-1] == 2:
+					print("\nYou have chosen to play "+thedeck.a2[p1a2handloc[int(p1choice)-1-a1count]].name)
+					# First move place of field pile cards up one to account for the new card being played on the pile:
+					for i in range(len(Deck.a2)):
+						if Deck.a2[i].location == "p1field" and Deck.a2[i].color == Deck.a2[p1a2handloc[int(p1choice)-1-a1count]].color:
+							Deck.a2[i].place = Deck.a2[i].place + 1
+					# Put the new card on the top of the corresponding pile:
+					Deck.a2[p1a2handloc[int(p1choice)-1-a1count]].location = "p1field"
+					Deck.a2[p1a2handloc[int(p1choice)-1-a1count]].place = 1
+				elif agearr[int(p1choice)-1] == 3:
+					print("\nYou have chosen to play "+thedeck.a3[p1a3handloc[int(p1choice)-1-a1count-a2count]].name)
+					# First move place of field pile cards up one to account for the new card being played on the pile:
+					for i in range(len(Deck.a3)):
+						if Deck.a3[i].location == "p1field" and Deck.a3[i].color == Deck.a3[p1a3handloc[int(p1choice)-1-a1count-a2count]].color:
+							Deck.a3[i].place = Deck.a3[i].place + 1
+					# Put the new card on the top of the corresponding pile:
+					Deck.a3[p1a3handloc[int(p1choice)-1-a1count-a2count]].location = "p1field"
+					Deck.a3[p1a3handloc[int(p1choice)-1-a1count-a2count]].place = 1
+				elif agearr[int(p1choice)-1] == 4:
+					print("\nYou have chosen to play "+thedeck.a4[p1a4handloc[int(p1choice)-1-a1count-a2count-a3count]].name)
+					# First move place of field pile cards up one to account for the new card being played on the pile:
+					for i in range(len(Deck.a4)):
+						if Deck.a4[i].location == "p1field" and Deck.a4[i].color == Deck.a4[p1a4handloc[int(p1choice)-1-a1count-a2count-a3count]].color:
+							Deck.a4[i].place = Deck.a4[i].place + 1
+					# Put the new card on the top of the corresponding pile:
+					Deck.a4[p1a4handloc[int(p1choice)-1-a1count-a2count-a3count]].location = "p1field"
+					Deck.a4[p1a4handloc[int(p1choice)-1-a1count-a2count-a3count]].place = 1
+			else:
+				print("\nNot a valid choice.")
 
 ##################
 ## MAIN ROUTINE ##
@@ -880,7 +1122,7 @@ print(  "    ****************")
 
 print("\n    Code Developed By")
 print(  "       Alex Spacek")
-print(  "     5/8/19-2/22/26")
+print(  "     5/8/19-2/23/26")
 
 ## DEFINE CLASSES
 
@@ -1286,20 +1528,24 @@ p2count = 0
 # Loop through shuffled Age 1 (a1) cards, deal to players if the cards are in the deck, 2 cards per hand
 # Count is 1 less because 1 card is in the domination pile
 for i in range(len(Deck.a1)-1):
-	# Using base 1 (instead of base 0 that range uses)
-	count = i+1
 	for j in range(len(Deck.a1)):
-		if Deck.a1[j].place == count and Deck.a1[j].location == "deck":
+		if Deck.a1[j].place == 1 and Deck.a1[j].location == "deck":
 			if p1count < 2:
 				Deck.a1[j].location = "p1hand"
 				Deck.a1[j].place = -1
 				p1count = p1count + 1
+				# Move the place of the other deck cards up one
+				for k in range(len(Deck.a1)):
+					if Deck.a1[k].location == "deck":
+						Deck.a1[k].place = Deck.a1[k].place-1
 			elif p2count < 2:
 				Deck.a1[j].location = "p2hand"
 				Deck.a1[j].place = -1
 				p2count = p2count + 1
-			else:
-				break
+				# Move the place of the other deck cards up one
+				for k in range(len(Deck.a1)):
+					if Deck.a1[k].location == "deck":
+						Deck.a1[k].place = Deck.a1[k].place-1
 
 ## PLAY FIRST CARDS
 
