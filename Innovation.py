@@ -64,8 +64,10 @@ from random import shuffle
 ## FUNCTIONS ##
 ###############
 
+###########
 ## ACTIVATE
-# Function to play a card
+###########
+# Function to play a card.
 # Input:
 #   thedeck (arr) - the multi-dimensional array of all deck info
 #   who (str) - "p1", "p2"
@@ -73,8 +75,285 @@ from random import shuffle
 #     p2 - Player 2
 # Output:
 #   nothing (null)
+# Possible ways to call this function:
+#   activate(thedeck,"p1") - will ask Player 1 to pick a card from their field to activate
+#   activate(thedeck,"p2") - will pick a random card from Player 2's field to activate
+##########################
 def activate(thedeck,who):
-	print("\nActivate!")
+	# Count the total symbols for each player:
+	# Call "symbolcount" to do it:
+	symbolarr = symbolcount(thedeck)
+	# Organize the output:
+	p1bulb = symbolarr[0]
+	p2bulb = symbolarr[1]
+	p1castle = symbolarr[2]
+	p2castle = symbolarr[3]
+	p1crown = symbolarr[4]
+	p2crown = symbolarr[5]
+	# Print results:
+	print("\np1bulb = "+str(p1bulb))
+	print("p2bulb = "+str(p2bulb))
+	print("\np1castle = "+str(p1castle))
+	print("p2castle = "+str(p2castle))
+	print("\np1crown = "+str(p1crown))
+	print("p2crown = "+str(p2crown))
+	# If Player 1 is activating:
+	if who == "p1":
+		# Get the length of the Age arrays:
+		# Call "lengths" to do it:
+		# 0 = don't print the info
+		lengtharr = lengths(thedeck,0)
+		# Organize the output:
+		tota1len = lengtharr[0]
+		tota2len = lengtharr[1]
+		tota3len = lengtharr[2]
+		tota4len = lengtharr[3]
+		# Grab the locations of Player 1's cards:
+		# Initialize the arrays:
+		p1a1fieldloc = []
+		p1a2fieldloc = []
+		p1a3fieldloc = []
+		p1a4fieldloc = []
+		agearr = []
+		# Run through Age 1
+		for i in range(tota1len):
+			# If the card is on top of Player 1 field pile:
+			if thedeck.a1[i].location == "p1field" and thedeck.a1[i].place == 1:
+				# Record the location:
+				p1a1fieldloc = p1a1fieldloc+[i]
+				# Record the Age:
+				agearr = agearr+[1]
+		# Run through Age 2
+		for i in range(tota2len):
+			# If the card is on top of Player 1 field pile:
+			if thedeck.a2[i].location == "p1field" and thedeck.a2[i].place == 1:
+				# Record the location:
+				p1a2fieldloc = p1a2fieldloc+[i]
+				# Record the Age:
+				agearr = agearr+[2]
+		# Run through Age 3
+		for i in range(tota3len):
+			# If the card is on top of Player 1 field pile:
+			if thedeck.a3[i].location == "p1field" and thedeck.a3[i].place == 1:
+				# Record the location:
+				p1a3fieldloc = p1a3fieldloc+[i]
+				# Record the Age:
+				agearr = agearr+[3]
+		# Run through Age 4
+		for i in range(tota4len):
+			# If the card is on top of Player 1 field pile:
+			if thedeck.a4[i].location == "p1field" and thedeck.a4[i].place == 1:
+				# Record the location:
+				p1a4fieldloc = p1a4fieldloc+[i]
+				# Record the Age:
+				agearr = agearr+[4]
+		# Ask for choice:
+		flag = 0
+		while flag == 0:
+			print("\nPlayer 1 field:")
+			n = 1
+			print("Red")
+			# Age 1
+			for i in range(len(p1a1fieldloc)):
+				if thedeck.a1[p1a1fieldloc[i]].color == "red":
+					print(str(n)+" - "+thedeck.a1[p1a1fieldloc[i]].name)
+					n = n+1
+			# Age 2
+			for i in range(len(p1a2fieldloc)):
+				if thedeck.a2[p1a2fieldloc[i]].color == "red":
+					print(str(n)+" - "+thedeck.a2[p1a2fieldloc[i]].name)
+					n = n+1
+			# Age 3
+			for i in range(len(p1a3fieldloc)):
+				if thedeck.a3[p1a3fieldloc[i]].color == "red":
+					print(str(n)+" - "+thedeck.a3[p1a3fieldloc[i]].name)
+					n = n+1
+			# Age 4
+			for i in range(len(p1a4fieldloc)):
+				if thedeck.a4[p1a4fieldloc[i]].color == "red":
+					print(str(n)+" - "+thedeck.a4[p1a4fieldloc[i]].name)
+					n = n+1
+			p1choice = input("\nChoose a card to activate, or enter 0 to check game info: ")
+			if p1choice == "0":
+				print("\n0 - Hand info")
+				print("1 - Field info")
+				p1infochoice = input("\n")
+				if p1infochoice == "0":
+					cardinfo(thedeck,"p1hand")
+				elif p1infochoice == "1":
+					print("\nPlayer 1 field:")
+					cardinfo(thedeck,"p1field")
+					print("\nPlayer 2 field:")
+					cardinfo(thedeck,"p2field")
+					print("\nAvailable age piles:")
+					cardinfo(thedeck,"deck")
+			elif int(p1choice) < n:
+				flag = 1
+				a1count = 0
+				a2count = 0
+				a3count = 0
+				a4count = 0
+				for i in range(len(agearr)):
+					if agearr[i] == 1:
+						a1count = a1count + 1
+					elif agearr[i] == 2:
+						a2count = a2count + 1
+					elif agearr[i] == 3:
+						a3count = a3count + 1
+					elif agearr[i] == 4:
+						a4count = a4count + 1
+				if agearr[int(p1choice)-1] == 1:
+					print("\nYou have chosen to activate "+thedeck.a1[p1a1fieldloc[int(p1choice)-1]].name)
+				elif agearr[int(p1choice)-1] == 2:
+					print("\nYou have chosen to activate "+thedeck.a2[p1a2fieldloc[int(p1choice)-1-a1count]].name)
+				elif agearr[int(p1choice)-1] == 3:
+					print("\nYou have chosen to activate "+thedeck.a3[p1a3fieldloc[int(p1choice)-1-a1count-a2count]].name)
+				elif agearr[int(p1choice)-1] == 4:
+					print("\nYou have chosen to activate "+thedeck.a4[p1a4fieldloc[int(p1choice)-1-a1count-a2count-a3count]].name)
+			else:
+				print("\nNot a valid choice.")
+	# If Player 2 is activating:
+	elif who == "p2":
+		# Get the length of the Age arrays:
+		# Call "lengths" to do it:
+		# 0 = don't print the info
+		lengtharr = lengths(thedeck,0)
+		# Organize the output:
+		tota1len = lengtharr[0]
+		tota2len = lengtharr[1]
+		tota3len = lengtharr[2]
+		tota4len = lengtharr[3]
+		# Grab the locations of Player 2's cards:
+		# Initialize the arrays:
+		p2a1fieldloc = []
+		p2a2fieldloc = []
+		p2a3fieldloc = []
+		p2a4fieldloc = []
+		agearr = []
+		# Run through Age 1
+		for i in range(tota1len):
+			# If the card is on top of Player 2 field pile:
+			if thedeck.a1[i].location == "p2field" and thedeck.a1[i].place == 1:
+				# Record the location:
+				p2a1fieldloc = p2a1fieldloc+[i]
+				# Record the Age:
+				agearr = agearr+[1]
+		# Run through Age 2
+		for i in range(tota2len):
+			# If the card is on top of Player 2 field pile:
+			if thedeck.a2[i].location == "p2field" and thedeck.a1[i].place == 1:
+				# Record the location:
+				p2a2fieldloc = p2a2fieldloc+[i]
+				# Record the Age:
+				agearr = agearr+[2]
+		# Run through Age 3
+		for i in range(tota3len):
+			# If the card is on top of Player 2 field pile:
+			if thedeck.a3[i].location == "p2field" and thedeck.a1[i].place == 1:
+				# Record the location:
+				p2a3fieldloc = p2a3fieldloc+[i]
+				# Record the Age:
+				agearr = agearr+[3]
+		# Run through Age 4
+		for i in range(tota4len):
+			# If the card is on top of Player 2 field pile:
+			if thedeck.a4[i].location == "p2field" and thedeck.a1[i].place == 1:
+				# Record the location:
+				p2a4fieldloc = p2a4fieldloc+[i]
+				# Record the Age:
+				agearr = agearr+[4]
+		# Pick a random card from field to play:
+		flag = 0
+		while flag == 0:
+			n = 1
+			for i in range(len(p2a1fieldloc)):
+				n = n+1
+			for i in range(len(p2a2fieldloc)):
+				n = n+1
+			for i in range(len(p2a3fieldloc)):
+				n = n+1
+			for i in range(len(p2a4fieldloc)):
+				n = n+1
+			randarray = []
+			for i in range(n-1):
+				randarray = randarray+[i+1]
+			p2choice = random.choice(randarray)
+			if int(p2choice) < n:
+				flag = 1
+				a1count = 0
+				a2count = 0
+				a3count = 0
+				a4count = 0
+				for i in range(len(agearr)):
+					if agearr[i] == 1:
+						a1count = a1count + 1
+					elif agearr[i] == 2:
+						a2count = a2count + 1
+					elif agearr[i] == 3:
+						a3count = a3count + 1
+					elif agearr[i] == 4:
+						a4count = a4count + 1
+				if agearr[int(p2choice)-1] == 1:
+					print("\nPlayer 2 has chosen to activate "+thedeck.a1[p2a1fieldloc[int(p2choice)-1]].name)
+				elif agearr[int(p2choice)-1] == 2:
+					print("\nPlayer 2 has chosen to activate "+thedeck.a2[p2a2fieldloc[int(p2choice)-1-a1count]].name)
+				elif agearr[int(p2choice)-1] == 3:
+					print("\nPlayer 2 has chosen to activate "+thedeck.a3[p2a3fieldloc[int(p2choice)-1-a1count-a2count]].name)
+				elif agearr[int(p2choice)-1] == 4:
+					print("\nPlayer 2 has chosen to activate "+thedeck.a4[p2a4fieldloc[int(p2choice)-1-a1count-a2count-a3count]].name)
+			else:
+				print("\nNot a valid choice.")
+
+##############
+## CARDEFFECTS
+##############
+# Function to activate the effects of a specific card.
+# Input:
+#   thedeck (arr) - the multi-dimensional array of all deck info
+#   who (str) - "p1", "p2"
+#     p1 - Player 1
+#     p2 - Player 2
+#   cardname (str) - "Archery", "Metalworking", "Oars"
+# Output:
+#   nothing (null)
+# Possible ways to call this function:
+#   cardeffects(thedeck,"p1","Archery") - Player 1 is activating Archery
+#   cardeffects(thedeck,"p2","Archery") - Player 2 is activating Archery
+#   etc.
+######################################
+def cardeffects(thedeck,who,cardname):
+	# Count the total symbols for each player:
+	# Call "symbolcount" to do it:
+	symbolarr = symbolcount(thedeck)
+	# Organize the output:
+	p1bulb = symbolarr[0]
+	p2bulb = symbolarr[1]
+	p1castle = symbolarr[2]
+	p2castle = symbolarr[3]
+	p1crown = symbolarr[4]
+	p2crown = symbolarr[5]
+	# Archery - Red
+	# Demand - Castle - "I demand you draw a [1], then transfer the highest card in your hand to my hand!"
+	if cardname == "Archery":
+		if who == "p1":
+			if p2castle >= p1castle:
+				print("\nPlayer 2 does not have less Castle than Player 1, so the Archery Demand does not apply.")
+			else:
+				print("\nPlayer 1 demands Player 2 draws a [1], then transfers the highest card from their hand to Player 1's hand.")
+		elif who == "p2":
+			if p1castle >= p2castle:
+				print("\nPlayer 1 does not have less Castle than Player 2, so the Archery Demand does not apply.")
+			else:
+				print("\nPlayer 2 demands Player 1 draws a [1], then transfers the highest card from their hand to Player 2's hand.")
+	# Metalworking - Red
+	# Coop - Castle - "Draw and reveal a [1]. If it has a [castle], score it and repeat this dogma effect. Otherwise, keep it."
+	elif cardname == "Metalworking":
+	
+	# Oars - Red
+	# Demand - Castle - "I demand you transfer a card with a [crown] from your hand to my score pile! If you do, draw a [1]."
+	# Coop - Castle - "If no cards were transferred due to this demand, draw a [1]."
+	elif cardname == "Oars":
+
 
 ## CARDINFO
 # Function to show card info
@@ -1109,6 +1388,783 @@ def play(thedeck,who):
 					Deck.a4[p1a4handloc[int(p1choice)-1-a1count-a2count-a3count]].place = 1
 			else:
 				print("\nNot a valid choice.")
+	elif who == "p2":
+		# Get the length of the Age arrays:
+		lengtharr = lengths(thedeck,0)
+		tota1len = lengtharr[0]
+		tota2len = lengtharr[1]
+		tota3len = lengtharr[2]
+		tota4len = lengtharr[3]
+		# Grab the locations of Player 2's cards:
+		p2a1handloc = []
+		p2a2handloc = []
+		p2a3handloc = []
+		p2a4handloc = []
+		agearr = []
+		for i in range(tota1len):
+			if thedeck.a1[i].location == "p2hand":
+				p2a1handloc = p2a1handloc+[i]
+				agearr = agearr+[1]
+		for i in range(tota2len):
+			if thedeck.a2[i].location == "p2hand":
+				p2a2handloc = p2a2handloc+[i]
+				agearr = agearr+[2]
+		for i in range(tota3len):
+			if thedeck.a3[i].location == "p2hand":
+				p2a3handloc = p2a3handloc+[i]
+				agearr = agearr+[3]
+		for i in range(tota4len):
+			if thedeck.a4[i].location == "p2hand":
+				p2a4handloc = p2a4handloc+[i]
+				agearr = agearr+[4]
+		# Pick a random card from hand to play:
+		flag = 0
+		while flag == 0:
+			n = 1
+			for i in range(len(p2a1handloc)):
+				n = n+1
+			for i in range(len(p2a2handloc)):
+				n = n+1
+			for i in range(len(p2a3handloc)):
+				n = n+1
+			for i in range(len(p2a4handloc)):
+				n = n+1
+			randarray = []
+			for i in range(n-1):
+				randarray = randarray+[i+1]
+			p2choice = random.choice(randarray)
+			if int(p2choice) < n:
+				flag = 1
+				a1count = 0
+				a2count = 0
+				a3count = 0
+				a4count = 0
+				for i in range(len(agearr)):
+					if agearr[i] == 1:
+						a1count = a1count + 1
+					elif agearr[i] == 2:
+						a2count = a2count + 1
+					elif agearr[i] == 3:
+						a3count = a3count + 1
+					elif agearr[i] == 4:
+						a4count = a4count + 1
+				if agearr[int(p2choice)-1] == 1:
+					print("\nPlayer 2 has chosen to play "+thedeck.a1[p2a1handloc[int(p2choice)-1]].name)
+					# First move place of field pile cards up one to account for the new card being played on the pile:
+					for i in range(len(Deck.a1)):
+						if Deck.a1[i].location == "p2field" and Deck.a1[i].color == Deck.a1[p2a1handloc[int(p2choice)-1]].color:
+							Deck.a1[i].place = Deck.a1[i].place + 1
+					# Put the new card on the top of the corresponding pile:
+					Deck.a1[p2a1handloc[int(p2choice)-1]].location = "p2field"
+					Deck.a1[p2a1handloc[int(p2choice)-1]].place = 1
+				elif agearr[int(p2choice)-1] == 2:
+					print("\nPlayer 2 has chosen to play "+thedeck.a2[p2a2handloc[int(p2choice)-1-a1count]].name)
+					# First move place of field pile cards up one to account for the new card being played on the pile:
+					for i in range(len(Deck.a2)):
+						if Deck.a2[i].location == "p2field" and Deck.a2[i].color == Deck.a2[p2a2handloc[int(p2choice)-1-a1count]].color:
+							Deck.a2[i].place = Deck.a2[i].place + 1
+					# Put the new card on the top of the corresponding pile:
+					Deck.a2[p2a2handloc[int(p2choice)-1-a1count]].location = "p2field"
+					Deck.a2[p2a2handloc[int(p2choice)-1-a1count]].place = 1
+				elif agearr[int(p2choice)-1] == 3:
+					print("\nPlayer 2 has chosen to play "+thedeck.a3[p2a3handloc[int(p2choice)-1-a1count-a2count]].name)
+					# First move place of field pile cards up one to account for the new card being played on the pile:
+					for i in range(len(Deck.a3)):
+						if Deck.a3[i].location == "p2field" and Deck.a3[i].color == Deck.a3[p2a3handloc[int(p2choice)-1-a1count-a2count]].color:
+							Deck.a3[i].place = Deck.a3[i].place + 1
+					# Put the new card on the top of the corresponding pile:
+					Deck.a3[p2a3handloc[int(p2choice)-1-a1count-a2count]].location = "p2field"
+					Deck.a3[p2a3handloc[int(p2choice)-1-a1count-a2count]].place = 1
+				elif agearr[int(p2choice)-1] == 4:
+					print("\nPlayer 2 has chosen to play "+thedeck.a4[p2a4handloc[int(p2choice)-1-a1count-a2count-a3count]].name)
+					# First move place of field pile cards up one to account for the new card being played on the pile:
+					for i in range(len(Deck.a4)):
+						if Deck.a4[i].location == "p2field" and Deck.a4[i].color == Deck.a4[p2a4handloc[int(p2choice)-1-a1count-a2count-a3count]].color:
+							Deck.a4[i].place = Deck.a4[i].place + 1
+					# Put the new card on the top of the corresponding pile:
+					Deck.a4[p2a4handloc[int(p2choice)-1-a1count-a2count-a3count]].location = "p2field"
+					Deck.a4[p2a4handloc[int(p2choice)-1-a1count-a2count-a3count]].place = 1
+			else:
+				print("\nNot a valid choice.")
+
+## SYMBOLCOUNT
+# Function to count the number of symbols for each player on the field
+# Input:
+#   thedeck (arr) - the multi-dimensional array of all deck info
+#   who (str) - "p1", "p2"
+#     p1 - Player 1
+#     p2 - Player 2
+# Output:
+#   symbolarr (arr) - [p1bulb,p2bulb,p1castle,p2castle,p1crown,p2crown]
+#     symbolarr[0] = p1bulb
+#     symbolarr[1] = p2bulb
+#     symbolarr[2] = p1castle
+#     symbolarr[3] = p2castle
+#     symbolarr[4] = p1crown
+#     symbolarr[5] = p2crown
+def symbolcount(thedeck):
+	# Count the total symbols for each player
+	lengtharr = lengths(thedeck,0)
+	tota1len = lengtharr[0]
+	tota2len = lengtharr[1]
+	tota3len = lengtharr[2]
+	tota4len = lengtharr[3]
+	p1bulb = 0
+	p2bulb = 0
+	p1castle = 0
+	p2castle = 0
+	p1crown = 0
+	p2crown = 0
+	# AGE 1
+	for i in range(tota1len):
+		# PLAYER 1
+		if thedeck.a1[i].location == "p1field":
+			if thedeck.a1[i].place == 1:
+				# P1 UL
+				if thedeck.a1[i].syms.ul == "bulb":
+					p1bulb = p1bulb + 1
+				elif thedeck.a1[i].syms.ul == "castle":
+					p1castle = p1castle + 1
+				elif thedeck.a1[i].syms.ul == "crown":
+					p1crown = p1crown + 1
+				# P1 DL
+				if thedeck.a1[i].syms.dl == "bulb":
+					p1bulb = p1bulb + 1
+				elif thedeck.a1[i].syms.dl == "castle":
+					p1castle = p1castle + 1
+				elif thedeck.a1[i].syms.dl == "crown":
+					p1crown = p1crown + 1
+				# P1 DM
+				if thedeck.a1[i].syms.dm == "bulb":
+					p1bulb = p1bulb + 1
+				elif thedeck.a1[i].syms.dm == "castle":
+					p1castle = p1castle + 1
+				elif thedeck.a1[i].syms.dm == "crown":
+					p1crown = p1crown + 1
+				# P1 DR
+				if thedeck.a1[i].syms.dr == "bulb":
+					p1bulb = p1bulb + 1
+				elif thedeck.a1[i].syms.dr == "castle":
+					p1castle = p1castle + 1
+				elif thedeck.a1[i].syms.dr == "crown":
+					p1crown = p1crown + 1
+			elif thedeck.a1[i].place > 1 and thedeck.a1[i].splay != "none":
+				# Left splay means DR shows
+				if thedeck.a1[i].splay == "left":
+					# P1 DR
+					if thedeck.a1[i].syms.dr == "bulb":
+						p1bulb = p1bulb + 1
+					elif thedeck.a1[i].syms.dr == "castle":
+						p1castle = p1castle + 1
+					elif thedeck.a1[i].syms.dr == "crown":
+						p1crown = p1crown + 1
+				# Right splay means UL and DL show
+				elif thedeck.a1[i].splay == "right":
+					# P1 UL
+					if thedeck.a1[i].syms.ul == "bulb":
+						p1bulb = p1bulb + 1
+					elif thedeck.a1[i].syms.ul == "castle":
+						p1castle = p1castle + 1
+					elif thedeck.a1[i].syms.ul == "crown":
+						p1crown = p1crown + 1
+					# P1 DL
+					if thedeck.a1[i].syms.dl == "bulb":
+						p1bulb = p1bulb + 1
+					elif thedeck.a1[i].syms.dl == "castle":
+						p1castle = p1castle + 1
+					elif thedeck.a1[i].syms.dl == "crown":
+						p1crown = p1crown + 1
+				# Up splay means DL, DM, and DR show
+				elif thedeck.a1[i].splay == "up":
+					# P1 DL
+					if thedeck.a1[i].syms.dl == "bulb":
+						p1bulb = p1bulb + 1
+					elif thedeck.a1[i].syms.dl == "castle":
+						p1castle = p1castle + 1
+					elif thedeck.a1[i].syms.dl == "crown":
+						p1crown = p1crown + 1
+					# P1 DM
+					if thedeck.a1[i].syms.dm == "bulb":
+						p1bulb = p1bulb + 1
+					elif thedeck.a1[i].syms.dm == "castle":
+						p1castle = p1castle + 1
+					elif thedeck.a1[i].syms.dm == "crown":
+						p1crown = p1crown + 1
+					# P1 DR
+					if thedeck.a1[i].syms.dr == "bulb":
+						p1bulb = p1bulb + 1
+					elif thedeck.a1[i].syms.dr == "castle":
+						p1castle = p1castle + 1
+					elif thedeck.a1[i].syms.dr == "crown":
+						p1crown = p1crown + 1
+		# PLAYER 2
+		if thedeck.a1[i].location == "p2field":
+			if thedeck.a1[i].place == 1:
+				# P2 UL
+				if thedeck.a1[i].syms.ul == "bulb":
+					p2bulb = p2bulb + 1
+				elif thedeck.a1[i].syms.ul == "castle":
+					p2castle = p2castle + 1
+				elif thedeck.a1[i].syms.ul == "crown":
+					p2crown = p2crown + 1
+				# P2 DL
+				if thedeck.a1[i].syms.dl == "bulb":
+					p2bulb = p2bulb + 1
+				elif thedeck.a1[i].syms.dl == "castle":
+					p2castle = p2castle + 1
+				elif thedeck.a1[i].syms.dl == "crown":
+					p2crown = p2crown + 1
+				# P2 DM
+				if thedeck.a1[i].syms.dm == "bulb":
+					p2bulb = p2bulb + 1
+				elif thedeck.a1[i].syms.dm == "castle":
+					p2castle = p2castle + 1
+				elif thedeck.a1[i].syms.dm == "crown":
+					p2crown = p2crown + 1
+				# P2 DR
+				if thedeck.a1[i].syms.dr == "bulb":
+					p2bulb = p2bulb + 1
+				elif thedeck.a1[i].syms.dr == "castle":
+					p2castle = p2castle + 1
+				elif thedeck.a1[i].syms.dr == "crown":
+					p2crown = p2crown + 1
+			elif thedeck.a1[i].place > 1 and thedeck.a1[i].splay != "none":
+				# Left splay means DR shows
+				if thedeck.a1[i].splay == "left":
+					# P2 DR
+					if thedeck.a1[i].syms.dr == "bulb":
+						p2bulb = p2bulb + 1
+					elif thedeck.a1[i].syms.dr == "castle":
+						p2castle = p2castle + 1
+					elif thedeck.a1[i].syms.dr == "crown":
+						p2crown = p2crown + 1
+				# Right splay means UL and DL show
+				elif thedeck.a1[i].splay == "right":
+					# P2 UL
+					if thedeck.a1[i].syms.ul == "bulb":
+						p2bulb = p2bulb + 1
+					elif thedeck.a1[i].syms.ul == "castle":
+						p2castle = p2castle + 1
+					elif thedeck.a1[i].syms.ul == "crown":
+						p2crown = p2crown + 1
+					# P2 DL
+					if thedeck.a1[i].syms.dl == "bulb":
+						p2bulb = p2bulb + 1
+					elif thedeck.a1[i].syms.dl == "castle":
+						p2castle = p2castle + 1
+					elif thedeck.a1[i].syms.dl == "crown":
+						p2crown = p2crown + 1
+				# Up splay means DL, DM, and DR show
+				elif thedeck.a1[i].splay == "up":
+					# P2 DL
+					if thedeck.a1[i].syms.dl == "bulb":
+						p2bulb = p2bulb + 1
+					elif thedeck.a1[i].syms.dl == "castle":
+						p2castle = p2castle + 1
+					elif thedeck.a1[i].syms.dl == "crown":
+						p2crown = p2crown + 1
+					# P2 DM
+					if thedeck.a1[i].syms.dm == "bulb":
+						p2bulb = p2bulb + 1
+					elif thedeck.a1[i].syms.dm == "castle":
+						p2castle = p2castle + 1
+					elif thedeck.a1[i].syms.dm == "crown":
+						p2crown = p2crown + 1
+					# P2 DR
+					if thedeck.a1[i].syms.dr == "bulb":
+						p2bulb = p2bulb + 1
+					elif thedeck.a1[i].syms.dr == "castle":
+						p2castle = p2castle + 1
+					elif thedeck.a1[i].syms.dr == "crown":
+						p2crown = p2crown + 1
+	# AGE 2
+	for i in range(tota2len):
+		# PLAYER 1
+		if thedeck.a2[i].location == "p1field":
+			if thedeck.a2[i].place == 1:
+				# P1 UL
+				if thedeck.a2[i].syms.ul == "bulb":
+					p1bulb = p1bulb + 1
+				elif thedeck.a2[i].syms.ul == "castle":
+					p1castle = p1castle + 1
+				elif thedeck.a2[i].syms.ul == "crown":
+					p1crown = p1crown + 1
+				# P1 DL
+				if thedeck.a2[i].syms.dl == "bulb":
+					p1bulb = p1bulb + 1
+				elif thedeck.a2[i].syms.dl == "castle":
+					p1castle = p1castle + 1
+				elif thedeck.a2[i].syms.dl == "crown":
+					p1crown = p1crown + 1
+				# P1 DM
+				if thedeck.a2[i].syms.dm == "bulb":
+					p1bulb = p1bulb + 1
+				elif thedeck.a2[i].syms.dm == "castle":
+					p1castle = p1castle + 1
+				elif thedeck.a2[i].syms.dm == "crown":
+					p1crown = p1crown + 1
+				# P1 DR
+				if thedeck.a2[i].syms.dr == "bulb":
+					p1bulb = p1bulb + 1
+				elif thedeck.a2[i].syms.dr == "castle":
+					p1castle = p1castle + 1
+				elif thedeck.a2[i].syms.dr == "crown":
+					p1crown = p1crown + 1
+			elif thedeck.a2[i].place > 1 and thedeck.a2[i].splay != "none":
+				# Left splay means DR shows
+				if thedeck.a2[i].splay == "left":
+					# P1 DR
+					if thedeck.a2[i].syms.dr == "bulb":
+						p1bulb = p1bulb + 1
+					elif thedeck.a2[i].syms.dr == "castle":
+						p1castle = p1castle + 1
+					elif thedeck.a2[i].syms.dr == "crown":
+						p1crown = p1crown + 1
+				# Right splay means UL and DL show
+				elif thedeck.a2[i].splay == "right":
+					# P1 UL
+					if thedeck.a2[i].syms.ul == "bulb":
+						p1bulb = p1bulb + 1
+					elif thedeck.a2[i].syms.ul == "castle":
+						p1castle = p1castle + 1
+					elif thedeck.a2[i].syms.ul == "crown":
+						p1crown = p1crown + 1
+					# P1 DL
+					if thedeck.a2[i].syms.dl == "bulb":
+						p1bulb = p1bulb + 1
+					elif thedeck.a2[i].syms.dl == "castle":
+						p1castle = p1castle + 1
+					elif thedeck.a2[i].syms.dl == "crown":
+						p1crown = p1crown + 1
+				# Up splay means DL, DM, and DR show
+				elif thedeck.a2[i].splay == "up":
+					# P1 DL
+					if thedeck.a2[i].syms.dl == "bulb":
+						p1bulb = p1bulb + 1
+					elif thedeck.a2[i].syms.dl == "castle":
+						p1castle = p1castle + 1
+					elif thedeck.a2[i].syms.dl == "crown":
+						p1crown = p1crown + 1
+					# P1 DM
+					if thedeck.a2[i].syms.dm == "bulb":
+						p1bulb = p1bulb + 1
+					elif thedeck.a2[i].syms.dm == "castle":
+						p1castle = p1castle + 1
+					elif thedeck.a2[i].syms.dm == "crown":
+						p1crown = p1crown + 1
+					# P1 DR
+					if thedeck.a2[i].syms.dr == "bulb":
+						p1bulb = p1bulb + 1
+					elif thedeck.a2[i].syms.dr == "castle":
+						p1castle = p1castle + 1
+					elif thedeck.a2[i].syms.dr == "crown":
+						p1crown = p1crown + 1
+		# PLAYER 2
+		if thedeck.a2[i].location == "p2field":
+			if thedeck.a2[i].place == 1:
+				# P2 UL
+				if thedeck.a2[i].syms.ul == "bulb":
+					p2bulb = p2bulb + 1
+				elif thedeck.a2[i].syms.ul == "castle":
+					p2castle = p2castle + 1
+				elif thedeck.a2[i].syms.ul == "crown":
+					p2crown = p2crown + 1
+				# P2 DL
+				if thedeck.a2[i].syms.dl == "bulb":
+					p2bulb = p2bulb + 1
+				elif thedeck.a2[i].syms.dl == "castle":
+					p2castle = p2castle + 1
+				elif thedeck.a2[i].syms.dl == "crown":
+					p2crown = p2crown + 1
+				# P2 DM
+				if thedeck.a2[i].syms.dm == "bulb":
+					p2bulb = p2bulb + 1
+				elif thedeck.a2[i].syms.dm == "castle":
+					p2castle = p2castle + 1
+				elif thedeck.a2[i].syms.dm == "crown":
+					p2crown = p2crown + 1
+				# P2 DR
+				if thedeck.a2[i].syms.dr == "bulb":
+					p2bulb = p2bulb + 1
+				elif thedeck.a2[i].syms.dr == "castle":
+					p2castle = p2castle + 1
+				elif thedeck.a2[i].syms.dr == "crown":
+					p2crown = p2crown + 1
+			elif thedeck.a2[i].place > 1 and thedeck.a2[i].splay != "none":
+				# Left splay means DR shows
+				if thedeck.a2[i].splay == "left":
+					# P2 DR
+					if thedeck.a2[i].syms.dr == "bulb":
+						p2bulb = p2bulb + 1
+					elif thedeck.a2[i].syms.dr == "castle":
+						p2castle = p2castle + 1
+					elif thedeck.a2[i].syms.dr == "crown":
+						p2crown = p2crown + 1
+				# Right splay means UL and DL show
+				elif thedeck.a2[i].splay == "right":
+					# P2 UL
+					if thedeck.a2[i].syms.ul == "bulb":
+						p2bulb = p2bulb + 1
+					elif thedeck.a2[i].syms.ul == "castle":
+						p2castle = p2castle + 1
+					elif thedeck.a2[i].syms.ul == "crown":
+						p2crown = p2crown + 1
+					# P2 DL
+					if thedeck.a2[i].syms.dl == "bulb":
+						p2bulb = p2bulb + 1
+					elif thedeck.a2[i].syms.dl == "castle":
+						p2castle = p2castle + 1
+					elif thedeck.a2[i].syms.dl == "crown":
+						p2crown = p2crown + 1
+				# Up splay means DL, DM, and DR show
+				elif thedeck.a2[i].splay == "up":
+					# P2 DL
+					if thedeck.a2[i].syms.dl == "bulb":
+						p2bulb = p2bulb + 1
+					elif thedeck.a2[i].syms.dl == "castle":
+						p2castle = p2castle + 1
+					elif thedeck.a2[i].syms.dl == "crown":
+						p2crown = p2crown + 1
+					# P2 DM
+					if thedeck.a2[i].syms.dm == "bulb":
+						p2bulb = p2bulb + 1
+					elif thedeck.a2[i].syms.dm == "castle":
+						p2castle = p2castle + 1
+					elif thedeck.a2[i].syms.dm == "crown":
+						p2crown = p2crown + 1
+					# P2 DR
+					if thedeck.a2[i].syms.dr == "bulb":
+						p2bulb = p2bulb + 1
+					elif thedeck.a2[i].syms.dr == "castle":
+						p2castle = p2castle + 1
+					elif thedeck.a2[i].syms.dr == "crown":
+						p2crown = p2crown + 1
+	# AGE 3
+	for i in range(tota3len):
+		# PLAYER 1
+		if thedeck.a3[i].location == "p1field":
+			if thedeck.a3[i].place == 1:
+				# P1 UL
+				if thedeck.a3[i].syms.ul == "bulb":
+					p1bulb = p1bulb + 1
+				elif thedeck.a3[i].syms.ul == "castle":
+					p1castle = p1castle + 1
+				elif thedeck.a3[i].syms.ul == "crown":
+					p1crown = p1crown + 1
+				# P1 DL
+				if thedeck.a3[i].syms.dl == "bulb":
+					p1bulb = p1bulb + 1
+				elif thedeck.a3[i].syms.dl == "castle":
+					p1castle = p1castle + 1
+				elif thedeck.a3[i].syms.dl == "crown":
+					p1crown = p1crown + 1
+				# P1 DM
+				if thedeck.a3[i].syms.dm == "bulb":
+					p1bulb = p1bulb + 1
+				elif thedeck.a3[i].syms.dm == "castle":
+					p1castle = p1castle + 1
+				elif thedeck.a3[i].syms.dm == "crown":
+					p1crown = p1crown + 1
+				# P1 DR
+				if thedeck.a3[i].syms.dr == "bulb":
+					p1bulb = p1bulb + 1
+				elif thedeck.a3[i].syms.dr == "castle":
+					p1castle = p1castle + 1
+				elif thedeck.a3[i].syms.dr == "crown":
+					p1crown = p1crown + 1
+			elif thedeck.a3[i].place > 1 and thedeck.a3[i].splay != "none":
+				# Left splay means DR shows
+				if thedeck.a3[i].splay == "left":
+					# P1 DR
+					if thedeck.a3[i].syms.dr == "bulb":
+						p1bulb = p1bulb + 1
+					elif thedeck.a3[i].syms.dr == "castle":
+						p1castle = p1castle + 1
+					elif thedeck.a3[i].syms.dr == "crown":
+						p1crown = p1crown + 1
+				# Right splay means UL and DL show
+				elif thedeck.a3[i].splay == "right":
+					# P1 UL
+					if thedeck.a3[i].syms.ul == "bulb":
+						p1bulb = p1bulb + 1
+					elif thedeck.a3[i].syms.ul == "castle":
+						p1castle = p1castle + 1
+					elif thedeck.a3[i].syms.ul == "crown":
+						p1crown = p1crown + 1
+					# P1 DL
+					if thedeck.a3[i].syms.dl == "bulb":
+						p1bulb = p1bulb + 1
+					elif thedeck.a3[i].syms.dl == "castle":
+						p1castle = p1castle + 1
+					elif thedeck.a3[i].syms.dl == "crown":
+						p1crown = p1crown + 1
+				# Up splay means DL, DM, and DR show
+				elif thedeck.a3[i].splay == "up":
+					# P1 DL
+					if thedeck.a3[i].syms.dl == "bulb":
+						p1bulb = p1bulb + 1
+					elif thedeck.a3[i].syms.dl == "castle":
+						p1castle = p1castle + 1
+					elif thedeck.a3[i].syms.dl == "crown":
+						p1crown = p1crown + 1
+					# P1 DM
+					if thedeck.a3[i].syms.dm == "bulb":
+						p1bulb = p1bulb + 1
+					elif thedeck.a3[i].syms.dm == "castle":
+						p1castle = p1castle + 1
+					elif thedeck.a3[i].syms.dm == "crown":
+						p1crown = p1crown + 1
+					# P1 DR
+					if thedeck.a3[i].syms.dr == "bulb":
+						p1bulb = p1bulb + 1
+					elif thedeck.a3[i].syms.dr == "castle":
+						p1castle = p1castle + 1
+					elif thedeck.a3[i].syms.dr == "crown":
+						p1crown = p1crown + 1
+		# PLAYER 2
+		if thedeck.a3[i].location == "p2field":
+			if thedeck.a3[i].place == 1:
+				# P2 UL
+				if thedeck.a3[i].syms.ul == "bulb":
+					p2bulb = p2bulb + 1
+				elif thedeck.a3[i].syms.ul == "castle":
+					p2castle = p2castle + 1
+				elif thedeck.a3[i].syms.ul == "crown":
+					p2crown = p2crown + 1
+				# P2 DL
+				if thedeck.a3[i].syms.dl == "bulb":
+					p2bulb = p2bulb + 1
+				elif thedeck.a3[i].syms.dl == "castle":
+					p2castle = p2castle + 1
+				elif thedeck.a3[i].syms.dl == "crown":
+					p2crown = p2crown + 1
+				# P2 DM
+				if thedeck.a3[i].syms.dm == "bulb":
+					p2bulb = p2bulb + 1
+				elif thedeck.a3[i].syms.dm == "castle":
+					p2castle = p2castle + 1
+				elif thedeck.a3[i].syms.dm == "crown":
+					p2crown = p2crown + 1
+				# P2 DR
+				if thedeck.a3[i].syms.dr == "bulb":
+					p2bulb = p2bulb + 1
+				elif thedeck.a3[i].syms.dr == "castle":
+					p2castle = p2castle + 1
+				elif thedeck.a3[i].syms.dr == "crown":
+					p2crown = p2crown + 1
+			elif thedeck.a3[i].place > 1 and thedeck.a3[i].splay != "none":
+				# Left splay means DR shows
+				if thedeck.a3[i].splay == "left":
+					# P2 DR
+					if thedeck.a3[i].syms.dr == "bulb":
+						p2bulb = p2bulb + 1
+					elif thedeck.a3[i].syms.dr == "castle":
+						p2castle = p2castle + 1
+					elif thedeck.a3[i].syms.dr == "crown":
+						p2crown = p2crown + 1
+				# Right splay means UL and DL show
+				elif thedeck.a3[i].splay == "right":
+					# P2 UL
+					if thedeck.a3[i].syms.ul == "bulb":
+						p2bulb = p2bulb + 1
+					elif thedeck.a3[i].syms.ul == "castle":
+						p2castle = p2castle + 1
+					elif thedeck.a3[i].syms.ul == "crown":
+						p2crown = p2crown + 1
+					# P2 DL
+					if thedeck.a3[i].syms.dl == "bulb":
+						p2bulb = p2bulb + 1
+					elif thedeck.a3[i].syms.dl == "castle":
+						p2castle = p2castle + 1
+					elif thedeck.a3[i].syms.dl == "crown":
+						p2crown = p2crown + 1
+				# Up splay means DL, DM, and DR show
+				elif thedeck.a3[i].splay == "up":
+					# P2 DL
+					if thedeck.a3[i].syms.dl == "bulb":
+						p2bulb = p2bulb + 1
+					elif thedeck.a3[i].syms.dl == "castle":
+						p2castle = p2castle + 1
+					elif thedeck.a3[i].syms.dl == "crown":
+						p2crown = p2crown + 1
+					# P2 DM
+					if thedeck.a3[i].syms.dm == "bulb":
+						p2bulb = p2bulb + 1
+					elif thedeck.a3[i].syms.dm == "castle":
+						p2castle = p2castle + 1
+					elif thedeck.a3[i].syms.dm == "crown":
+						p2crown = p2crown + 1
+					# P2 DR
+					if thedeck.a3[i].syms.dr == "bulb":
+						p2bulb = p2bulb + 1
+					elif thedeck.a3[i].syms.dr == "castle":
+						p2castle = p2castle + 1
+					elif thedeck.a3[i].syms.dr == "crown":
+						p2crown = p2crown + 1
+	# AGE 4
+	for i in range(tota4len):
+		# PLAYER 1
+		if thedeck.a4[i].location == "p1field":
+			if thedeck.a4[i].place == 1:
+				# P1 UL
+				if thedeck.a4[i].syms.ul == "bulb":
+					p1bulb = p1bulb + 1
+				elif thedeck.a4[i].syms.ul == "castle":
+					p1castle = p1castle + 1
+				elif thedeck.a4[i].syms.ul == "crown":
+					p1crown = p1crown + 1
+				# P1 DL
+				if thedeck.a4[i].syms.dl == "bulb":
+					p1bulb = p1bulb + 1
+				elif thedeck.a4[i].syms.dl == "castle":
+					p1castle = p1castle + 1
+				elif thedeck.a4[i].syms.dl == "crown":
+					p1crown = p1crown + 1
+				# P1 DM
+				if thedeck.a4[i].syms.dm == "bulb":
+					p1bulb = p1bulb + 1
+				elif thedeck.a4[i].syms.dm == "castle":
+					p1castle = p1castle + 1
+				elif thedeck.a4[i].syms.dm == "crown":
+					p1crown = p1crown + 1
+				# P1 DR
+				if thedeck.a4[i].syms.dr == "bulb":
+					p1bulb = p1bulb + 1
+				elif thedeck.a4[i].syms.dr == "castle":
+					p1castle = p1castle + 1
+				elif thedeck.a4[i].syms.dr == "crown":
+					p1crown = p1crown + 1
+			elif thedeck.a4[i].place > 1 and thedeck.a4[i].splay != "none":
+				# Left splay means DR shows
+				if thedeck.a4[i].splay == "left":
+					# P1 DR
+					if thedeck.a4[i].syms.dr == "bulb":
+						p1bulb = p1bulb + 1
+					elif thedeck.a4[i].syms.dr == "castle":
+						p1castle = p1castle + 1
+					elif thedeck.a4[i].syms.dr == "crown":
+						p1crown = p1crown + 1
+				# Right splay means UL and DL show
+				elif thedeck.a4[i].splay == "right":
+					# P1 UL
+					if thedeck.a4[i].syms.ul == "bulb":
+						p1bulb = p1bulb + 1
+					elif thedeck.a4[i].syms.ul == "castle":
+						p1castle = p1castle + 1
+					elif thedeck.a4[i].syms.ul == "crown":
+						p1crown = p1crown + 1
+					# P1 DL
+					if thedeck.a4[i].syms.dl == "bulb":
+						p1bulb = p1bulb + 1
+					elif thedeck.a4[i].syms.dl == "castle":
+						p1castle = p1castle + 1
+					elif thedeck.a4[i].syms.dl == "crown":
+						p1crown = p1crown + 1
+				# Up splay means DL, DM, and DR show
+				elif thedeck.a4[i].splay == "up":
+					# P1 DL
+					if thedeck.a4[i].syms.dl == "bulb":
+						p1bulb = p1bulb + 1
+					elif thedeck.a4[i].syms.dl == "castle":
+						p1castle = p1castle + 1
+					elif thedeck.a4[i].syms.dl == "crown":
+						p1crown = p1crown + 1
+					# P1 DM
+					if thedeck.a4[i].syms.dm == "bulb":
+						p1bulb = p1bulb + 1
+					elif thedeck.a4[i].syms.dm == "castle":
+						p1castle = p1castle + 1
+					elif thedeck.a4[i].syms.dm == "crown":
+						p1crown = p1crown + 1
+					# P1 DR
+					if thedeck.a4[i].syms.dr == "bulb":
+						p1bulb = p1bulb + 1
+					elif thedeck.a4[i].syms.dr == "castle":
+						p1castle = p1castle + 1
+					elif thedeck.a4[i].syms.dr == "crown":
+						p1crown = p1crown + 1
+		# PLAYER 2
+		if thedeck.a4[i].location == "p2field":
+			if thedeck.a4[i].place == 1:
+				# P2 UL
+				if thedeck.a4[i].syms.ul == "bulb":
+					p2bulb = p2bulb + 1
+				elif thedeck.a4[i].syms.ul == "castle":
+					p2castle = p2castle + 1
+				elif thedeck.a4[i].syms.ul == "crown":
+					p2crown = p2crown + 1
+				# P2 DL
+				if thedeck.a4[i].syms.dl == "bulb":
+					p2bulb = p2bulb + 1
+				elif thedeck.a4[i].syms.dl == "castle":
+					p2castle = p2castle + 1
+				elif thedeck.a4[i].syms.dl == "crown":
+					p2crown = p2crown + 1
+				# P2 DM
+				if thedeck.a4[i].syms.dm == "bulb":
+					p2bulb = p2bulb + 1
+				elif thedeck.a4[i].syms.dm == "castle":
+					p2castle = p2castle + 1
+				elif thedeck.a4[i].syms.dm == "crown":
+					p2crown = p2crown + 1
+				# P2 DR
+				if thedeck.a4[i].syms.dr == "bulb":
+					p2bulb = p2bulb + 1
+				elif thedeck.a4[i].syms.dr == "castle":
+					p2castle = p2castle + 1
+				elif thedeck.a4[i].syms.dr == "crown":
+					p2crown = p2crown + 1
+			elif thedeck.a4[i].place > 1 and thedeck.a4[i].splay != "none":
+				# Left splay means DR shows
+				if thedeck.a4[i].splay == "left":
+					# P2 DR
+					if thedeck.a4[i].syms.dr == "bulb":
+						p2bulb = p2bulb + 1
+					elif thedeck.a4[i].syms.dr == "castle":
+						p2castle = p2castle + 1
+					elif thedeck.a4[i].syms.dr == "crown":
+						p2crown = p2crown + 1
+				# Right splay means UL and DL show
+				elif thedeck.a4[i].splay == "right":
+					# P2 UL
+					if thedeck.a4[i].syms.ul == "bulb":
+						p2bulb = p2bulb + 1
+					elif thedeck.a4[i].syms.ul == "castle":
+						p2castle = p2castle + 1
+					elif thedeck.a4[i].syms.ul == "crown":
+						p2crown = p2crown + 1
+					# P2 DL
+					if thedeck.a4[i].syms.dl == "bulb":
+						p2bulb = p2bulb + 1
+					elif thedeck.a4[i].syms.dl == "castle":
+						p2castle = p2castle + 1
+					elif thedeck.a4[i].syms.dl == "crown":
+						p2crown = p2crown + 1
+				# Up splay means DL, DM, and DR show
+				elif thedeck.a4[i].splay == "up":
+					# P2 DL
+					if thedeck.a4[i].syms.dl == "bulb":
+						p2bulb = p2bulb + 1
+					elif thedeck.a4[i].syms.dl == "castle":
+						p2castle = p2castle + 1
+					elif thedeck.a4[i].syms.dl == "crown":
+						p2crown = p2crown + 1
+					# P2 DM
+					if thedeck.a4[i].syms.dm == "bulb":
+						p2bulb = p2bulb + 1
+					elif thedeck.a4[i].syms.dm == "castle":
+						p2castle = p2castle + 1
+					elif thedeck.a4[i].syms.dm == "crown":
+						p2crown = p2crown + 1
+					# P2 DR
+					if thedeck.a4[i].syms.dr == "bulb":
+						p2bulb = p2bulb + 1
+					elif thedeck.a4[i].syms.dr == "castle":
+						p2castle = p2castle + 1
+					elif thedeck.a4[i].syms.dr == "crown":
+						p2crown = p2crown + 1
+	symbolarr = [p1bulb,p2bulb,p1castle,p2castle,p1crown,p2crown]
+	return symbolarr
 
 ##################
 ## MAIN ROUTINE ##
