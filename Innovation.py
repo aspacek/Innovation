@@ -12,9 +12,8 @@
 ## RANDOM
 # Used to make random choices
 import random
+## SHUFFLE
 # Also used to "shuffle" the cards
-# > random.shuffle(array)
-# Which we will use as
 # > shuffle(array)
 from random import shuffle
 
